@@ -4,6 +4,7 @@ import ProductEditor from './ProductEditor';
 import Login from './Login';
 import ChangePassword from './ChangePassword';
 import InquiryList from './InquiryList';
+import antennasData from '../data/antennas.json';
 import '../admin.css';
 
 function AdminDashboard() {
@@ -19,16 +20,15 @@ function AdminDashboard() {
     const [filterCategory, setFilterCategory] = useState('All');
     const [showChangePassword, setShowChangePassword] = useState(false);
 
-    const API_URL = 'http://localhost:3001/api';
+    const API_URL = 'http://localhost:3000/api';
 
-    // Fetch products
+    // Load products from local JSON
     const fetchProducts = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch(`${API_URL}/products`);
-            if (!response.ok) throw new Error('Failed to fetch products');
-            const data = await response.json();
-            setProducts(data);
+            // Simulate async operation
+            await new Promise(resolve => setTimeout(resolve, 100));
+            setProducts(antennasData);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -37,15 +37,22 @@ function AdminDashboard() {
         }
     };
 
-    // Fetch statistics
+    // Calculate statistics from local data
     const fetchStats = async () => {
         try {
-            const response = await fetch(`${API_URL}/stats`);
-            if (!response.ok) throw new Error('Failed to fetch stats');
-            const data = await response.json();
-            setStats(data);
+            const categories = new Set(products.map(p => p.category).filter(Boolean));
+            const subcategories = new Set(products.map(p => p.subcategory).filter(Boolean));
+            const withImages = products.filter(p => p.hasRealImage).length;
+
+            setStats({
+                totalProducts: products.length,
+                totalCategories: categories.size,
+                totalSubcategories: subcategories.size,
+                withImages,
+                withoutImages: products.length - withImages
+            });
         } catch (err) {
-            console.error('Error fetching stats:', err);
+            console.error('Error calculating stats:', err);
         }
     };
 
@@ -124,63 +131,15 @@ function AdminDashboard() {
         sessionStorage.removeItem('adminAuth');
     };
 
-    // Handle product save
+    // Handle product save (disabled - no backend)
     const handleSaveProduct = async (productData) => {
-        try {
-            setIsLoading(true);
-            const isNew = !selectedProduct;
-            const url = isNew
-                ? `${API_URL}/products`
-                : `${API_URL}/products/${selectedProduct.id}`;
-
-            const method = isNew ? 'POST' : 'PUT';
-
-            const response = await fetch(url, {
-                method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(productData)
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Failed to save product');
-            }
-
-            await fetchProducts();
-            await fetchStats();
-            setView('products');
-            setSelectedProduct(null);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        } finally {
-            setIsLoading(false);
-        }
+        alert('⚠️ Product editing is currently disabled.\n\nThis admin dashboard requires a backend API server to save changes.\nThe current deployment uses static JSON data.');
+        throw new Error('Product editing disabled - no backend API');
     };
 
-    // Handle product delete
+    // Handle product delete (disabled - no backend)
     const handleDeleteProduct = async (productId) => {
-        if (!confirm(`Are you sure you want to delete product ${productId}?`)) {
-            return;
-        }
-
-        try {
-            setIsLoading(true);
-            const response = await fetch(`${API_URL}/products/${productId}`, {
-                method: 'DELETE'
-            });
-
-            if (!response.ok) throw new Error('Failed to delete product');
-
-            await fetchProducts();
-            await fetchStats();
-            setError(null);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
+        alert('⚠️ Product deletion is currently disabled.\n\nThis admin dashboard requires a backend API server to delete products.\nThe current deployment uses static JSON data.');
     };
 
     // Handle export
