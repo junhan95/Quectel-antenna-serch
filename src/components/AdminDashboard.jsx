@@ -226,7 +226,7 @@ function AdminDashboard() {
                     <p>Product Management Dashboard</p>
                 </div>
                 <div className="admin-header-actions">
-                    <button onClick={() => window.location.href = '/'} className="btn-secondary">
+                    <button onClick={() => window.location.href = window.location.pathname + '#/'} className="btn-secondary">
                         ← Back to Search
                     </button>
                     <button onClick={() => setShowChangePassword(true)} className="btn-secondary">
