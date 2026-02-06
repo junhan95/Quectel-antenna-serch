@@ -17,8 +17,6 @@ export const submitInquiry = async (inquiry) => {
             product_id: inquiry.productId || null,
             message: inquiry.message
         })
-        .select()
-        .single()
 
     if (error) {
         console.error('Error submitting inquiry:', error)

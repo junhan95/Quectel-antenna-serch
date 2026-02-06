@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import antennasData from '../data/antennas.json';
 
+import { submitInquiry } from '../services/inquiryService';
+
 function Inquiry() {
     const location = useLocation();
     const [formData, setFormData] = useState({
@@ -65,30 +67,24 @@ function Inquiry() {
         setSubmitStatus(null);
 
         try {
-            const response = await fetch('http://localhost:3001/api/inquiry', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    to: 'junhanpark95@gmail.com'
-                })
+            const params = new URLSearchParams(location.search);
+            const productId = params.get('productId');
+
+            await submitInquiry({
+                ...formData,
+                productId // Pass the productId from URL
             });
 
-            if (response.ok) {
-                setSubmitStatus('success');
-                setFormData({
-                    name: '',
-                    company: '',
-                    email: '',
-                    phone: '',
-                    subject: '',
-                    message: ''
-                });
-            } else {
-                setSubmitStatus('error');
-            }
+            setSubmitStatus('success');
+            setFormData({
+                name: '',
+                company: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: ''
+            });
+
         } catch (error) {
             console.error('Error submitting inquiry:', error);
             setSubmitStatus('error');
