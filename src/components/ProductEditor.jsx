@@ -390,6 +390,34 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                             + Add Tag
                         </button>
                     </div>
+                    {/* Available Tags Selection */}
+                    <div className="common-specs" style={{ marginTop: '1rem' }}>
+                        <label className="stat-label">Select from existing tags:</label>
+                        <div className="spec-buttons">
+                            {[...new Set((existingProducts || [])
+                                .flatMap(p => p.tags)
+                                .filter(Boolean)
+                            )]
+                                .filter(tag => !formData.tags.includes(tag))
+                                .sort()
+                                .map(tag => (
+                                    <button
+                                        key={tag}
+                                        className="btn-spec"
+                                        onClick={() => {
+                                            if (!formData.tags.includes(tag)) {
+                                                setFormData(prev => ({
+                                                    ...prev,
+                                                    tags: [...prev.tags, tag]
+                                                }));
+                                            }
+                                        }}
+                                    >
+                                        + {tag}
+                                    </button>
+                                ))}
+                        </div>
+                    </div>
                 </section>
             </div>
 
