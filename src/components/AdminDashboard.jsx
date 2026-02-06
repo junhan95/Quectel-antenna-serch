@@ -316,8 +316,10 @@ function AdminDashboard() {
                                 <button
                                     className="btn-primary"
                                     onClick={() => {
+                                        console.log('Adding new product from Dashboard');
                                         setSelectedProduct(null);
                                         setView('editor');
+                                        window.scrollTo(0, 0);
                                     }}
                                 >
                                     ➕ Add New Product
@@ -353,9 +355,10 @@ function AdminDashboard() {
                         }}
                         onDelete={handleDeleteProduct}
                         onAddNew={() => {
-                            console.log('Adding new product');
+                            console.log('Adding new product from List');
                             setSelectedProduct(null);
                             setView('editor');
+                            window.scrollTo(0, 0);
                         }}
                     />
                 )}
