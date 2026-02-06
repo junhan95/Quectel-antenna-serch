@@ -53,9 +53,12 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
     const handleAddSpec = () => {
         if (newSpecKey.trim() && newSpecValue.trim()) {
             console.log('Adding manual spec:', newSpecKey, newSpecValue);
+            // alert(`Debug: Adding spec ${newSpecKey.trim()} with value ${newSpecValue.trim()}`);
             handleSpecChange(newSpecKey.trim(), newSpecValue.trim());
             setNewSpecKey('');
             setNewSpecValue('');
+        } else {
+            alert('Please enter both name and value');
         }
     };
 
