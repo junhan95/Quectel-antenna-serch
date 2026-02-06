@@ -88,6 +88,25 @@ function Footer() {
                 </div>
 
                 <div style={{
+                    marginBottom: '1.5rem',
+                    padding: '1.5rem',
+                    background: 'rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px',
+                    fontSize: '0.85rem',
+                    lineHeight: '1.6',
+                    color: '#64748b'
+                }}>
+                    <p style={{ marginBottom: '0.5rem' }}>
+                        본 사이트는 Quectel 의 공식 웹사이트가 아니며, 퀵텔 제품을 취급하는 공식 대리점이 운영하는 제품 검색 및 문의 지원용 정보 플랫폼입니다.
+                        Quectel® 및 관련 상표는 각 소유자의 자산입니다.
+                    </p>
+                    <p>
+                        This site is not an official website of Quectel, but an information platform for product search and inquiry support operated by an official distributor handling Quectel products.
+                        Quectel® and related trademarks are the property of their respective owners.
+                    </p>
+                </div>
+
+                <div style={{
                     paddingTop: '1.5rem',
                     borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                     fontSize: '0.85rem'
