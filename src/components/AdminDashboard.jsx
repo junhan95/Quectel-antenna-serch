@@ -131,6 +131,7 @@ function AdminDashboard() {
         }
         try {
             setIsLoading(true);
+            console.log('Saving product:', productData);
             if (selectedProduct) {
                 await productService.updateProduct(selectedProduct.id, productData);
             } else {
@@ -352,6 +353,7 @@ function AdminDashboard() {
                         }}
                         onDelete={handleDeleteProduct}
                         onAddNew={() => {
+                            console.log('Adding new product');
                             setSelectedProduct(null);
                             setView('editor');
                         }}
@@ -360,6 +362,7 @@ function AdminDashboard() {
 
                 {view === 'editor' && (
                     <ProductEditor
+                        key={selectedProduct ? selectedProduct.id : 'new'}
                         product={selectedProduct}
                         onSave={handleSaveProduct}
                         onCancel={() => {
