@@ -369,6 +369,7 @@ function AdminDashboard() {
                     <ProductEditor
                         key={selectedProduct ? selectedProduct.id : 'new'}
                         product={selectedProduct}
+                        existingProducts={products}
                         onSave={handleSaveProduct}
                         onCancel={() => {
                             setSelectedProduct(null);

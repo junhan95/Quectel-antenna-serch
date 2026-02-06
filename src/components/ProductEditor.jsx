@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ImageUploader from './ImageUploader';
 
-function ProductEditor({ product, onSave, onCancel, apiUrl }) {
+function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) {
     const [formData, setFormData] = useState({
         id: '',
         name: '',
@@ -200,22 +200,78 @@ function ProductEditor({ product, onSave, onCancel, apiUrl }) {
 
                         <div className="form-field">
                             <label>Category</label>
-                            <input
-                                type="text"
-                                value={formData.category}
-                                onChange={(e) => handleChange('category', e.target.value)}
-                                placeholder="e.g., Embedded antennas"
-                            />
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <select
+                                    value={formData.category}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (val === '__NEW__') {
+                                            handleChange('category', '');
+                                            document.getElementById('manual-category-input')?.focus();
+                                        } else {
+                                            handleChange('category', val);
+                                        }
+                                    }}
+                                    style={{ flex: 1 }}
+                                >
+                                    <option value="">Select Category...</option>
+                                    {[...new Set((existingProducts || []).map(p => p.category).filter(Boolean))].map(cat => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
+                                    <option value="__NEW__">+ Enter manually...</option>
+                                </select>
+                            </div>
+                            {(formData.category === '' || !([...new Set((existingProducts || []).map(p => p.category).filter(Boolean))].includes(formData.category))) && (
+                                <input
+                                    id="manual-category-input"
+                                    type="text"
+                                    value={formData.category}
+                                    onChange={(e) => handleChange('category', e.target.value)}
+                                    placeholder="Enter category name"
+                                    style={{ marginTop: '0.5rem' }}
+                                />
+                            )}
                         </div>
 
                         <div className="form-field">
                             <label>Subcategory</label>
-                            <input
-                                type="text"
-                                value={formData.subcategory}
-                                onChange={(e) => handleChange('subcategory', e.target.value)}
-                                placeholder="e.g., 5G antennas"
-                            />
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <select
+                                    value={formData.subcategory}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (val === '__NEW__') {
+                                            handleChange('subcategory', '');
+                                            document.getElementById('manual-subcategory-input')?.focus();
+                                        } else {
+                                            handleChange('subcategory', val);
+                                        }
+                                    }}
+                                    style={{ flex: 1 }}
+                                >
+                                    <option value="">Select Subcategory...</option>
+                                    {[...new Set((existingProducts || [])
+                                        .filter(p => !formData.category || p.category === formData.category)
+                                        .map(p => p.subcategory).filter(Boolean)
+                                    )].map(sub => (
+                                        <option key={sub} value={sub}>{sub}</option>
+                                    ))}
+                                    <option value="__NEW__">+ Enter manually...</option>
+                                </select>
+                            </div>
+                            {(formData.subcategory === '' || !([...new Set((existingProducts || [])
+                                .filter(p => !formData.category || p.category === formData.category)
+                                .map(p => p.subcategory).filter(Boolean)
+                            )].includes(formData.subcategory))) && (
+                                    <input
+                                        id="manual-subcategory-input"
+                                        type="text"
+                                        value={formData.subcategory}
+                                        onChange={(e) => handleChange('subcategory', e.target.value)}
+                                        placeholder="Enter subcategory name"
+                                        style={{ marginTop: '0.5rem' }}
+                                    />
+                                )}
                         </div>
                     </div>
                 </section>
