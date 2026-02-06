@@ -51,17 +51,7 @@ function Navbar() {
                 >
                     Inquiry
                 </Link>
-                <Link to="/admin" style={{
-                    color: '#cbd5e1',
-                    textDecoration: 'none',
-                    fontSize: '0.95rem',
-                    transition: 'color 0.2s'
-                }}
-                    onMouseEnter={(e) => e.target.style.color = 'white'}
-                    onMouseLeave={(e) => e.target.style.color = '#cbd5e1'}
-                >
-                    Admin
-                </Link>
+
             </div>
         </nav>
     );
