@@ -7584,7 +7584,7 @@
     "id": "YSAN025DA",
     "name": "YSAN025DA",
     "description": "DC~6GHz SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA female Connector type2 IPEX MHF1",
@@ -7604,7 +7604,7 @@
     "id": "YSAN025EA",
     "name": "YSAN025EA",
     "description": "DC~6GHz SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7621,7 +7621,7 @@
     "id": "YSAN025AA",
     "name": "YSAN025AA",
     "description": "DC~6GHz SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7638,7 +7638,7 @@
     "id": "YSAN025CA",
     "name": "YSAN025CA",
     "description": "DC~6GHz SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7655,7 +7655,7 @@
     "id": "YSAN025BA",
     "name": "YSAN025BA",
     "description": "DC~6GHz SMA female to IPEX MHF1 cable Cables & Connectors  |  Cables 83",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7672,7 +7672,7 @@
     "id": "YSAN026AA",
     "name": "YSAN026AA",
     "description": "DC~6GHz RP SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF1",
@@ -7692,7 +7692,7 @@
     "id": "YSAN026BA",
     "name": "YSAN026BA",
     "description": "DC~6GHz RP SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF1",
@@ -7712,7 +7712,7 @@
     "id": "YSAN026CA",
     "name": "YSAN026CA",
     "description": "DC~6GHz RP SMA female to IPEX MHF1 cable Cables & Connectors  |  Cables",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF1",
@@ -7732,7 +7732,7 @@
     "id": "YSAN026EA",
     "name": "YSAN026EA",
     "description": "DC~6GHz RP SMA female to IPEX MHF1 cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF1",
@@ -7752,7 +7752,7 @@
     "id": "YSAN026DA",
     "name": "YSAN026DA",
     "description": "DC~6GHz RP SMA female to IPEX MHF1 cable Cables & Connectors  |  Cables 84",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7769,7 +7769,7 @@
     "id": "YSAN027AA",
     "name": "YSAN027AA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7786,7 +7786,7 @@
     "id": "YSAN027CA",
     "name": "YSAN027CA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7803,7 +7803,7 @@
     "id": "YSAN027BA",
     "name": "YSAN027BA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7820,7 +7820,7 @@
     "id": "YSAN027DA",
     "name": "YSAN027DA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7837,7 +7837,7 @@
     "id": "YSAN027EA",
     "name": "YSAN027EA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable Cables & Connectors  |  Cables 85",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7854,7 +7854,7 @@
     "id": "YSAN027FA",
     "name": "YSAN027FA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA female Connector type2 IPEX MHF4L",
@@ -7874,7 +7874,7 @@
     "id": "YSAN027GA",
     "name": "YSAN027GA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA female Connector type2 IPEX MHF4L",
@@ -7894,7 +7894,7 @@
     "id": "YSAN027HA",
     "name": "YSAN027HA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA female Connector type2 IPEX MHF4L",
@@ -7914,7 +7914,7 @@
     "id": "YSAN027JA",
     "name": "YSAN027JA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA female Connector type2 IPEX MHF4L",
@@ -7934,7 +7934,7 @@
     "id": "YSAN027IA",
     "name": "YSAN027IA",
     "description": "DC~6GHz SMA female to IPEX MHF4L cable Cables & Connectors  |  Cables 86",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7951,7 +7951,7 @@
     "id": "YSAN028AA",
     "name": "YSAN028AA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7968,7 +7968,7 @@
     "id": "YSAN028CA",
     "name": "YSAN028CA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -7985,7 +7985,7 @@
     "id": "YSAN028BA",
     "name": "YSAN028BA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8002,7 +8002,7 @@
     "id": "YSAN028DA",
     "name": "YSAN028DA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8019,7 +8019,7 @@
     "id": "YSAN028EA",
     "name": "YSAN028EA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable Cables & Connectors  |  Cables 87",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8036,7 +8036,7 @@
     "id": "YSAN028FA",
     "name": "YSAN028FA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF4L",
@@ -8056,7 +8056,7 @@
     "id": "YSAN028GA",
     "name": "YSAN028GA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF4L",
@@ -8076,7 +8076,7 @@
     "id": "YSAN028HA",
     "name": "YSAN028HA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF4L",
@@ -8096,7 +8096,7 @@
     "id": "YSAN028JA",
     "name": "YSAN028JA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 RP SMA female Connector type2 IPEX MHF4L",
@@ -8116,7 +8116,7 @@
     "id": "YSAN028IA",
     "name": "YSAN028IA",
     "description": "DC~6GHz RP SMA female to IPEX MHF4L cable Cables & Connectors  |  Cables 88",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8133,7 +8133,7 @@
     "id": "YLUX013XQA",
     "name": "YLUX013XQA",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8153,7 +8153,7 @@
     "id": "YLUX013XQC",
     "name": "YLUX013XQC",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8173,7 +8173,7 @@
     "id": "YLUX013XQB",
     "name": "YLUX013XQB",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8193,7 +8193,7 @@
     "id": "YLUX013XQD",
     "name": "YLUX013XQD",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8213,7 +8213,7 @@
     "id": "YLUX013XQE",
     "name": "YLUX013XQE",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 89",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8230,7 +8230,7 @@
     "id": "YLUX013XQF",
     "name": "YLUX013XQF",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8250,7 +8250,7 @@
     "id": "YLUX013XQG",
     "name": "YLUX013XQG",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8270,7 +8270,7 @@
     "id": "YLUX013XQH",
     "name": "YLUX013XQH",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8290,7 +8290,7 @@
     "id": "YLUX013XQK",
     "name": "YLUX013XQK",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8310,7 +8310,7 @@
     "id": "YLUX013XQJ",
     "name": "YLUX013XQJ",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 90",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8327,7 +8327,7 @@
     "id": "YLUX013XQL",
     "name": "YLUX013XQL",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–2000 MHz"
@@ -8344,7 +8344,7 @@
     "id": "YLUX013XQN",
     "name": "YLUX013XQN",
     "description": "DC~2GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–2000 MHz"
@@ -8361,7 +8361,7 @@
     "id": "YLUX013XQM",
     "name": "YLUX013XQM",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–2000 MHz"
@@ -8378,7 +8378,7 @@
     "id": "YLUX013XQP",
     "name": "YLUX013XQP",
     "description": "DC~2GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–2000 MHz"
@@ -8395,7 +8395,7 @@
     "id": "YLUX013XQQ",
     "name": "YLUX013XQQ",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 91",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–2000 MHz"
@@ -8412,7 +8412,7 @@
     "id": "YLUX013XQR",
     "name": "YLUX013XQR",
     "description": "DC~2GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8432,7 +8432,7 @@
     "id": "YLUX016XQA",
     "name": "YLUX016XQA",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8452,7 +8452,7 @@
     "id": "YLUX016XQB",
     "name": "YLUX016XQB",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8472,7 +8472,7 @@
     "id": "YLUX016XQD",
     "name": "YLUX016XQD",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8492,7 +8492,7 @@
     "id": "YLUX016XQC",
     "name": "YLUX016XQC",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 92",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8509,7 +8509,7 @@
     "id": "YLUX016XQE",
     "name": "YLUX016XQE",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8526,7 +8526,7 @@
     "id": "YLUX016XQG",
     "name": "YLUX016XQG",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8543,7 +8543,7 @@
     "id": "YLUX016XQF",
     "name": "YLUX016XQF",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8560,7 +8560,7 @@
     "id": "YLUX016XQH",
     "name": "YLUX016XQH",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8577,7 +8577,7 @@
     "id": "YLUX016XQJ",
     "name": "YLUX016XQJ",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 93",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8594,7 +8594,7 @@
     "id": "YLUX016XQK",
     "name": "YLUX016XQK",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8614,7 +8614,7 @@
     "id": "YLUX016XQL",
     "name": "YLUX016XQL",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8634,7 +8634,7 @@
     "id": "YLUX016XQM",
     "name": "YLUX016XQM",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8654,7 +8654,7 @@
     "id": "YLUX017XQB",
     "name": "YLUX017XQB",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8674,7 +8674,7 @@
     "id": "YLUX017XQA",
     "name": "YLUX017XQA",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 94",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8691,7 +8691,7 @@
     "id": "YLUX017XQC",
     "name": "YLUX017XQC",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8708,7 +8708,7 @@
     "id": "YLUX017XQE",
     "name": "YLUX017XQE",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8725,7 +8725,7 @@
     "id": "YLUX017XQD",
     "name": "YLUX017XQD",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz"
@@ -8742,7 +8742,7 @@
     "id": "YLUX017XQF",
     "name": "YLUX017XQF",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8762,7 +8762,7 @@
     "id": "YLUX017XQG",
     "name": "YLUX017XQG",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 95",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8782,7 +8782,7 @@
     "id": "YLUX017XQH",
     "name": "YLUX017XQH",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8802,7 +8802,7 @@
     "id": "YLUX017XQJ",
     "name": "YLUX017XQJ",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8822,7 +8822,7 @@
     "id": "YLUX017XQK",
     "name": "YLUX017XQK",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8842,7 +8842,7 @@
     "id": "YLUX017XQM",
     "name": "YLUX017XQM",
     "description": "DC~6GHz SMA male to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC–6000 MHz Connector type1 SMA male Connector type2 SMA female",
@@ -8862,7 +8862,7 @@
     "id": "YLUX017XQL",
     "name": "YLUX017XQL",
     "description": "DC~6GHz SMA male to SMA female cable Cables & Connectors  |  Cables 96",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code C Connector type2 SMA female",
@@ -8882,7 +8882,7 @@
     "id": "YLUX030LLAM",
     "name": "YLUX030LLAM",
     "description": "DC~6GHz fakra female Code C to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code C Connector type2 SMA female",
@@ -8902,7 +8902,7 @@
     "id": "YLUX031NLAM",
     "name": "YLUX031NLAM",
     "description": "DC~6GHz fakra female Code C to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code C Connector type2 SMA female",
@@ -8922,7 +8922,7 @@
     "id": "YLUX032QLAM",
     "name": "YLUX032QLAM",
     "description": "DC~6GHz fakra female Code C to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code C Connector type2 SMA female",
@@ -8942,7 +8942,7 @@
     "id": "YLUX033ULAM",
     "name": "YLUX033ULAM",
     "description": "DC~6GHz fakra female Code C to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -8962,7 +8962,7 @@
     "id": "YLUX034LLAM",
     "name": "YLUX034LLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable Cables & Connectors  |  Cables 97",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -8982,7 +8982,7 @@
     "id": "YLUX035NLAM",
     "name": "YLUX035NLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -9002,7 +9002,7 @@
     "id": "YLUX036QLAM",
     "name": "YLUX036QLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -9022,7 +9022,7 @@
     "id": "YLUX037ULAM",
     "name": "YLUX037ULAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -9042,7 +9042,7 @@
     "id": "YLUX038LLAM",
     "name": "YLUX038LLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -9062,7 +9062,7 @@
     "id": "YLUX039NLAM",
     "name": "YLUX039NLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable Cables & Connectors  |  Cables 98",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC-6000 MHz Connector type1 SMA male Connector type2 TNC male",
@@ -9082,7 +9082,7 @@
     "id": "YEGX000Q1AM",
     "name": "YEGX000Q1AM",
     "description": "DC~6GHz SMA male to TNC male cable Cables & Connectors  |  Cables",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",
@@ -9102,7 +9102,7 @@
     "id": "YLUX040QLAM",
     "name": "YLUX040QLAM",
     "description": "DC~6GHz fakra female Code D to SMA female cable",
-    "category": "External antennas",
+    "category": "Cables",
     "subcategory": "LPWA/ISM antennas",
     "specs": {
       "Frequency range": "DC~6GHz Connector type1 Fakra female Code D Connector type2 SMA female",

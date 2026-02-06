@@ -36,7 +36,7 @@ function SearchApp() {
         const cats = new Set(antennasData.map(a => a.category || 'Unknown'))
         const uniqueCats = Array.from(cats).filter(c => c !== 'Unknown')
 
-        const priorityOrder = ['Embedded antennas', 'External antennas', 'Evaluation Boards']
+        const priorityOrder = ['Embedded antennas', 'External antennas', 'Evaluation Boards', 'Cables']
 
         const sortedCats = uniqueCats.sort((a, b) => {
             const indexA = priorityOrder.indexOf(a)
