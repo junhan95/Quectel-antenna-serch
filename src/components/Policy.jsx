@@ -1,4 +1,9 @@
+```javascript
+import { useNavigate } from 'react-router-dom';
+
 function Policy() {
+    const navigate = useNavigate();
+
     return (
         <div style={{
             maxWidth: '800px',
@@ -6,6 +11,36 @@ function Policy() {
             padding: '4rem 2rem',
             color: '#e2e8f0'
         }}>
+            <button
+                onClick={() => navigate(-1)}
+                style={{
+                    marginBottom: '2rem',
+                    background: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#94a3b8',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    fontSize: '0.9rem',
+                    transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    e.target.style.color = '#fff';
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.background = 'transparent';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    e.target.style.color = '#94a3b8';
+                }}
+            >
+                ← Back
+            </button>
+
             <h1 style={{ marginBottom: '2rem', fontSize: '2rem' }}>Website Policy (사이트 정책)</h1>
 
             <div style={{
