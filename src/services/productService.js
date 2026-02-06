@@ -78,11 +78,11 @@ export const updateProduct = async (id, product) => {
         throw new Error('Supabase not configured')
     }
 
-    const dbProduct = transformProductToDB(product)
+    const { id: _, ...updateData } = transformProductToDB(product)
 
     const { data, error } = await supabase
         .from('products')
-        .update(dbProduct)
+        .update(updateData)
         .eq('id', id)
         .select()
         .single()
