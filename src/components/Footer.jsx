@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Footer() {
     return (
         <footer style={{
@@ -32,14 +34,14 @@ function Footer() {
                         </h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             <li style={{ marginBottom: '0.5rem' }}>
-                                <a href="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+                                <Link to="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>
                                     Home
-                                </a>
+                                </Link>
                             </li>
                             <li style={{ marginBottom: '0.5rem' }}>
-                                <a href="/admin" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+                                <Link to="/admin" style={{ color: '#94a3b8', textDecoration: 'none' }}>
                                     Admin Dashboard
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
