@@ -52,6 +52,7 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
     // Add new spec
     const handleAddSpec = () => {
         if (newSpecKey.trim() && newSpecValue.trim()) {
+            console.log('Adding manual spec:', newSpecKey, newSpecValue);
             handleSpecChange(newSpecKey.trim(), newSpecValue.trim());
             setNewSpecKey('');
             setNewSpecValue('');
@@ -301,8 +302,8 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                                         key={spec}
                                         className="btn-spec"
                                         onClick={() => {
-                                            setNewSpecKey(spec);
-                                            document.getElementById('newSpecValue')?.focus();
+                                            handleSpecChange(spec, '');
+                                            // Optional: Focus logic could be added here if we had refs to the list inputs
                                         }}
                                     >
                                         + {spec}
