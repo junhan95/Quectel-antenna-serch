@@ -56,14 +56,13 @@ function AdminDashboard() {
         }
     };
 
-    // Fetch inquiries
+    // Fetch inquiries (disabled - requires backend API)
     const fetchInquiries = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch(`${API_URL}/inquiries`);
-            if (!response.ok) throw new Error('Failed to fetch inquiries');
-            const data = await response.json();
-            setInquiries(data);
+            // No backend API - set empty inquiries
+            await new Promise(resolve => setTimeout(resolve, 100));
+            setInquiries([]);
             setError(null);
         } catch (err) {
             setError(err.message);
