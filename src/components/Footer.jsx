@@ -85,6 +85,19 @@ function Footer() {
                             </li>
                         </ul>
                     </div>
+
+                    <div>
+                        <h4 style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>
+                            Legal
+                        </h4>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            <li style={{ marginBottom: '0.5rem' }}>
+                                <Link to="/policy" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+                                    Policy
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div style={{
