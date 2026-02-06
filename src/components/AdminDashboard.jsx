@@ -4,7 +4,9 @@ import ProductEditor from './ProductEditor';
 import Login from './Login';
 import ChangePassword from './ChangePassword';
 import InquiryList from './InquiryList';
-import antennasData from '../data/antennas.json';
+import { isSupabaseConfigured } from '../lib/supabase';
+import * as productService from '../services/productService';
+import * as inquiryService from '../services/inquiryService';
 import '../admin.css';
 
 function AdminDashboard() {
@@ -19,16 +21,19 @@ function AdminDashboard() {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCategory, setFilterCategory] = useState('All');
     const [showChangePassword, setShowChangePassword] = useState(false);
+    const [supabaseEnabled, setSupabaseEnabled] = useState(false);
 
-    const API_URL = 'http://localhost:3000/api';
+    // Check Supabase configuration on mount
+    useEffect(() => {
+        setSupabaseEnabled(isSupabaseConfigured());
+    }, []);
 
-    // Load products from local JSON
+    // Load products from Supabase or local JSON
     const fetchProducts = async () => {
         try {
             setIsLoading(true);
-            // Simulate async operation
-            await new Promise(resolve => setTimeout(resolve, 100));
-            setProducts(antennasData);
+            const data = await productService.getProducts();
+            setProducts(data);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -37,32 +42,22 @@ function AdminDashboard() {
         }
     };
 
-    // Calculate statistics from local data
+    // Calculate statistics
     const fetchStats = async () => {
         try {
-            const categories = new Set(products.map(p => p.category).filter(Boolean));
-            const subcategories = new Set(products.map(p => p.subcategory).filter(Boolean));
-            const withImages = products.filter(p => p.hasRealImage).length;
-
-            setStats({
-                totalProducts: products.length,
-                totalCategories: categories.size,
-                totalSubcategories: subcategories.size,
-                withImages,
-                withoutImages: products.length - withImages
-            });
+            const statsData = await productService.getProductStats();
+            setStats(statsData);
         } catch (err) {
             console.error('Error calculating stats:', err);
         }
     };
 
-    // Fetch inquiries (disabled - requires backend API)
+    // Fetch inquiries from Supabase
     const fetchInquiries = async () => {
         try {
             setIsLoading(true);
-            // No backend API - set empty inquiries
-            await new Promise(resolve => setTimeout(resolve, 100));
-            setInquiries([]);
+            const data = await inquiryService.getInquiries();
+            setInquiries(data);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -72,30 +67,28 @@ function AdminDashboard() {
     };
 
     // Handle delete single inquiry
-    const handleDeleteInquiry = async (timestamp) => {
+    const handleDeleteInquiry = async (id) => {
+        if (!supabaseEnabled) {
+            alert('⚠️ Supabase not configured. Cannot delete inquiries.');
+            return;
+        }
         try {
-            const response = await fetch(`${API_URL}/inquiries/${timestamp}`, {
-                method: 'DELETE'
-            });
-            if (!response.ok) throw new Error('Failed to delete inquiry');
-            await fetchInquiries(); // Refresh the list
+            await inquiryService.deleteInquiry(id);
+            await fetchInquiries();
         } catch (err) {
             setError(err.message);
         }
     };
 
     // Handle delete multiple inquiries
-    const handleDeleteInquiries = async (timestamps) => {
+    const handleDeleteInquiries = async (ids) => {
+        if (!supabaseEnabled) {
+            alert('⚠️ Supabase not configured. Cannot delete inquiries.');
+            return;
+        }
         try {
-            const response = await fetch(`${API_URL}/inquiries`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ timestamps })
-            });
-            if (!response.ok) throw new Error('Failed to delete inquiries');
-            await fetchInquiries(); // Refresh the list
+            await inquiryService.deleteInquiries(ids);
+            await fetchInquiries();
         } catch (err) {
             setError(err.message);
         }
@@ -130,22 +123,58 @@ function AdminDashboard() {
         sessionStorage.removeItem('adminAuth');
     };
 
-    // Handle product save (disabled - no backend)
+    // Handle product save
     const handleSaveProduct = async (productData) => {
-        alert('⚠️ Product editing is currently disabled.\n\nThis admin dashboard requires a backend API server to save changes.\nThe current deployment uses static JSON data.');
-        throw new Error('Product editing disabled - no backend API');
+        if (!supabaseEnabled) {
+            alert('⚠️ Supabase not configured. Cannot save products.');
+            throw new Error('Supabase not configured');
+        }
+        try {
+            setIsLoading(true);
+            if (selectedProduct) {
+                await productService.updateProduct(selectedProduct.id, productData);
+            } else {
+                await productService.createProduct(productData);
+            }
+            await fetchProducts();
+            await fetchStats();
+            setView('products');
+            setSelectedProduct(null);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    // Handle product delete (disabled - no backend)
+    // Handle product delete
     const handleDeleteProduct = async (productId) => {
-        alert('⚠️ Product deletion is currently disabled.\n\nThis admin dashboard requires a backend API server to delete products.\nThe current deployment uses static JSON data.');
+        if (!supabaseEnabled) {
+            alert('⚠️ Supabase not configured. Cannot delete products.');
+            return;
+        }
+        if (!confirm(`Are you sure you want to delete product ${productId}?`)) {
+            return;
+        }
+        try {
+            setIsLoading(true);
+            await productService.deleteProduct(productId);
+            await fetchProducts();
+            await fetchStats();
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     // Handle export
     const handleExport = async () => {
         try {
-            const response = await fetch(`${API_URL}/export`);
-            const data = await response.json();
+            const data = await productService.getProducts();
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
