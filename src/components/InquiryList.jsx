@@ -60,17 +60,17 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
     // Selection logic
     const handleSelectAll = (e) => {
         if (e.target.checked) {
-            setSelectedInquiries(inquiries.map(inq => inq.timestamp));
+            setSelectedInquiries(inquiries.map(inq => inq.id));
         } else {
             setSelectedInquiries([]);
         }
     };
 
-    const handleSelectOne = (timestamp) => {
-        if (selectedInquiries.includes(timestamp)) {
-            setSelectedInquiries(selectedInquiries.filter(t => t !== timestamp));
+    const handleSelectOne = (id) => {
+        if (selectedInquiries.includes(id)) {
+            setSelectedInquiries(selectedInquiries.filter(i => i !== id));
         } else {
-            setSelectedInquiries([...selectedInquiries, timestamp]);
+            setSelectedInquiries([...selectedInquiries, id]);
         }
     };
 
@@ -86,14 +86,14 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
 
     const handleDeleteAll = async () => {
         if (confirm(`Delete all ${inquiries.length} inquiries? This cannot be undone.`)) {
-            await onDeleteMultiple([]);
+            await onDeleteMultiple(inquiries.map(i => i.id));
             setSelectedInquiries([]);
         }
     };
 
-    const handleDeleteOne = async (timestamp) => {
+    const handleDeleteOne = async (id) => {
         if (confirm('Delete this inquiry?')) {
-            await onDelete(timestamp);
+            await onDelete(id);
         }
     };
 
@@ -191,10 +191,10 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
                     <tbody>
                         {sortedInquiries.map((inquiry) => (
                             <tr
-                                key={inquiry.timestamp}
+                                key={inquiry.id}
                                 style={{
                                     borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                                    background: selectedInquiries.includes(inquiry.timestamp)
+                                    background: selectedInquiries.includes(inquiry.id)
                                         ? 'rgba(59, 130, 246, 0.1)'
                                         : 'transparent'
                                 }}
@@ -202,8 +202,8 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
                                 <td style={{ padding: '1rem' }}>
                                     <input
                                         type="checkbox"
-                                        checked={selectedInquiries.includes(inquiry.timestamp)}
-                                        onChange={() => handleSelectOne(inquiry.timestamp)}
+                                        checked={selectedInquiries.includes(inquiry.id)}
+                                        onChange={() => handleSelectOne(inquiry.id)}
                                         style={{ cursor: 'pointer' }}
                                     />
                                 </td>
@@ -258,7 +258,7 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handleDeleteOne(inquiry.timestamp);
+                                            handleDeleteOne(inquiry.id);
                                         }}
                                         style={{
                                             padding: '0.4rem 0.8rem',
@@ -397,7 +397,7 @@ function InquiryList({ inquiries, onDelete, onDeleteMultiple }) {
                         }}>
                             <button
                                 onClick={() => {
-                                    handleDeleteOne(detailView.timestamp);
+                                    handleDeleteOne(detailView.id);
                                     setDetailView(null);
                                 }}
                                 style={{
