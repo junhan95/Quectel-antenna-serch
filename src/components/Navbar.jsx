@@ -16,7 +16,7 @@ function Navbar() {
             zIndex: 1000,
             boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
         }}>
-            <Link to="/" style={{
+            <Link to="/" onClick={() => window.scrollTo(0, 0)} style={{
                 color: 'white',
                 textDecoration: 'none',
                 fontSize: '1.2rem',
@@ -29,7 +29,7 @@ function Navbar() {
             </Link>
 
             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                <Link to="/" style={{
+                <Link to="/" onClick={() => window.scrollTo(0, 0)} style={{
                     color: '#cbd5e1',
                     textDecoration: 'none',
                     fontSize: '0.95rem',
