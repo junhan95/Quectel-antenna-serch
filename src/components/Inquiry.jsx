@@ -258,12 +258,22 @@ function Inquiry() {
                             </div>
                         )}
 
-                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}>
                             <Turnstile
-                                siteKey={import.meta.env.VITE_CLOUDFLARE_SITE_KEY}
-                                onSuccess={(token) => setTurnstileToken(token)}
-                                onExpire={() => setTurnstileToken(null)}
-                                onError={() => setTurnstileToken(null)}
+                                siteKey="0x4AAAAAAACZedU2x9L3MleV-"
+                                injectScript={false}
+                                onSuccess={(token) => {
+                                    console.log('Turnstile success:', token);
+                                    setTurnstileToken(token);
+                                }}
+                                onExpire={() => {
+                                    console.log('Turnstile expired');
+                                    setTurnstileToken(null);
+                                }}
+                                onError={(err) => {
+                                    console.error('Turnstile error:', err);
+                                    setTurnstileToken(null);
+                                }}
                                 ref={turnstileRef}
                             />
                         </div>
