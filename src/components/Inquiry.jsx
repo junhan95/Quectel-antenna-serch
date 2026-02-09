@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Turnstile } from '@marsidev/react-turnstile';
+// import { Turnstile } from '@marsidev/react-turnstile'; // Removed due to React 19 compatibility issues
 import Navbar from './Navbar';
 import Footer from './Footer';
 import antennasData from '../data/antennas.json';
@@ -21,7 +21,63 @@ function Inquiry() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [turnstileToken, setTurnstileToken] = useState(null);
-    const turnstileRef = useRef();
+    const turnstileRef = useRef(null);
+    const widgetId = useRef(null);
+
+    useEffect(() => {
+        // Function to render the widget
+        const renderTurnstile = () => {
+            if (window.turnstile && turnstileRef.current && !widgetId.current) {
+                try {
+                    widgetId.current = window.turnstile.render(turnstileRef.current, {
+                        sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
+                        callback: (token) => {
+                            console.log('Turnstile success:', token);
+                            setTurnstileToken(token);
+                        },
+                        'expired-callback': () => {
+                            console.log('Turnstile expired');
+                            setTurnstileToken(null);
+                        },
+                        'error-callback': (err) => {
+                            console.error('Turnstile error:', err);
+                            setTurnstileToken(null);
+                        },
+                    });
+                } catch (error) {
+                    console.error('Error rendering turnstile:', error);
+                }
+            }
+        };
+
+        // If script is already loaded
+        if (window.turnstile) {
+            renderTurnstile();
+        } else {
+            // Wait for it to load logic if needed, though script tag is async/defer in index.html, 
+            // usually it loads before this effect if placed in head, or we check interval
+            const checkInterval = setInterval(() => {
+                if (window.turnstile) {
+                    clearInterval(checkInterval);
+                    renderTurnstile();
+                }
+            }, 100);
+
+            return () => clearInterval(checkInterval);
+        }
+
+        // Cleanup
+        return () => {
+            if (window.turnstile && widgetId.current) {
+                try {
+                    window.turnstile.remove(widgetId.current);
+                    widgetId.current = null;
+                } catch (e) {
+                    // Ignore remove error
+                }
+            }
+        };
+    }, []);
 
     // Auto-fill form from URL query params
     useEffect(() => {
@@ -89,8 +145,8 @@ function Inquiry() {
                 message: ''
             });
             setTurnstileToken(null);
-            if (turnstileRef.current) {
-                turnstileRef.current.reset();
+            if (window.turnstile && widgetId.current) {
+                window.turnstile.reset(widgetId.current);
             }
 
         } catch (error) {
@@ -258,25 +314,10 @@ function Inquiry() {
                             </div>
                         )}
 
-                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}>
-                            <Turnstile
-                                siteKey="0x4AAAAAAACZedU2x9L3MleV-"
-                                injectScript={false}
-                                onSuccess={(token) => {
-                                    console.log('Turnstile success:', token);
-                                    setTurnstileToken(token);
-                                }}
-                                onExpire={() => {
-                                    console.log('Turnstile expired');
-                                    setTurnstileToken(null);
-                                }}
-                                onError={(err) => {
-                                    console.error('Turnstile error:', err);
-                                    setTurnstileToken(null);
-                                }}
-                                ref={turnstileRef}
-                            />
-                        </div>
+                        <div
+                            ref={turnstileRef}
+                            style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}
+                        ></div>
 
                         <button
                             type="submit"
