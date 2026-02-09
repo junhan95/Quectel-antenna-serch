@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import antennasData from '../data/antennas.json'
 import { frequencyBands, getBandFrequencyRanges, parseAntennaFrequencyRange, antennaSupportsFrequency } from '../data/frequencyBands'
 import FrequencyDropdown from './FrequencyDropdown'
 import SelectedBandsTags from './SelectedBandsTags'
 import Navbar from './Navbar'
 import Footer from './Footer'
+
+import SEO from './SEO'
 
 function SearchApp() {
     const navigate = useNavigate();
@@ -209,6 +211,7 @@ function SearchApp() {
 
     return (
         <>
+            <SEO />
             <Navbar />
             <div className="container" style={{ paddingTop: '80px' }}>
                 <header className="header">
@@ -407,49 +410,53 @@ function SearchApp() {
                     {currentAntennas.map(antenna => (
                         <div key={antenna.id} className="glass-card">
                             {antenna.imageUrl && (
-                                <div style={{
-                                    width: '100%',
-                                    height: '200px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    background: 'rgba(255, 255, 255, 0.05)',
-                                    borderRadius: '12px 12px 0 0',
-                                    overflow: 'hidden',
-                                    position: 'relative'
-                                }}>
-                                    <img
-                                        src={antenna.imageUrl}
-                                        alt={antenna.name}
-                                        onError={(e) => {
-                                            e.target.style.display = 'none';
-                                        }}
-                                        style={{
-                                            maxWidth: '100%',
-                                            maxHeight: '100%',
-                                            objectFit: 'contain',
-                                            padding: '1rem'
-                                        }}
-                                    />
-                                    {!antenna.hasRealImage && (
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '0.5rem',
-                                            right: '0.5rem',
-                                            background: 'rgba(59, 130, 246, 0.9)',
-                                            color: 'white',
-                                            padding: '0.25rem 0.5rem',
-                                            borderRadius: '4px',
-                                            fontSize: '0.7rem',
-                                            fontWeight: '500'
-                                        }}>
-                                            Representative
-                                        </div>
-                                    )}
-                                </div>
+                                <Link to={`/product/${antenna.id}`} style={{ display: 'block', textDecoration: 'none' }}>
+                                    <div style={{
+                                        width: '100%',
+                                        height: '200px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        borderRadius: '12px 12px 0 0',
+                                        overflow: 'hidden',
+                                        position: 'relative'
+                                    }}>
+                                        <img
+                                            src={antenna.imageUrl}
+                                            alt={antenna.name}
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                            }}
+                                            style={{
+                                                maxWidth: '100%',
+                                                maxHeight: '100%',
+                                                objectFit: 'contain',
+                                                padding: '1rem'
+                                            }}
+                                        />
+                                        {!antenna.hasRealImage && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: '0.5rem',
+                                                right: '0.5rem',
+                                                background: 'rgba(59, 130, 246, 0.9)',
+                                                color: 'white',
+                                                padding: '0.25rem 0.5rem',
+                                                borderRadius: '4px',
+                                                fontSize: '0.7rem',
+                                                fontWeight: '500'
+                                            }}>
+                                                Representative
+                                            </div>
+                                        )}
+                                    </div>
+                                </Link>
                             )}
                             <div className="card-content">
-                                <h3 className="card-title">{antenna.name}</h3>
+                                <Link to={`/product/${antenna.id}`} style={{ textDecoration: 'none' }}>
+                                    <h3 className="card-title" style={{ cursor: 'pointer', display: 'inline-block' }}>{antenna.name}</h3>
+                                </Link>
                                 <p className="card-desc">{antenna.description}</p>
                                 <div className="specs-list" style={{ background: 'transparent', padding: 0 }}>
                                     {viewMode === 'grid' ? (

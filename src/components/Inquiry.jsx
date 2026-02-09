@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Turnstile } from '@marsidev/react-turnstile';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import antennasData from '../data/antennas.json';
+import SEO from './SEO';
 
 import { submitInquiry } from '../services/inquiryService';
 
@@ -18,6 +20,8 @@ function Inquiry() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+    const [turnstileToken, setTurnstileToken] = useState(null);
+    const turnstileRef = useRef();
 
     // Auto-fill form from URL query params
     useEffect(() => {
@@ -84,6 +88,10 @@ function Inquiry() {
                 subject: '',
                 message: ''
             });
+            setTurnstileToken(null);
+            if (turnstileRef.current) {
+                turnstileRef.current.reset();
+            }
 
         } catch (error) {
             console.error('Error submitting inquiry:', error);
@@ -95,6 +103,11 @@ function Inquiry() {
 
     return (
         <>
+            <SEO
+                title="Product Inquiry"
+                description="Submit an inquiry for Quectel antennas. Get a quote or technical support."
+                url="https://quectel-antenna.com/#/inquiry"
+            />
             <Navbar />
             <div className="container" style={{ paddingTop: '80px', minHeight: 'calc(100vh - 200px)' }}>
                 <header className="header">
@@ -200,8 +213,6 @@ function Inquiry() {
                             </div>
                         </div>
 
-
-
                         <div className="form-group" style={{ marginBottom: '2rem' }}>
                             <label htmlFor="message" style={{ display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontWeight: '500' }}>
                                 Message *
@@ -247,31 +258,41 @@ function Inquiry() {
                             </div>
                         )}
 
+                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+                            <Turnstile
+                                siteKey={import.meta.env.VITE_CLOUDFLARE_SITE_KEY}
+                                onSuccess={(token) => setTurnstileToken(token)}
+                                onExpire={() => setTurnstileToken(null)}
+                                onError={() => setTurnstileToken(null)}
+                                ref={turnstileRef}
+                            />
+                        </div>
+
                         <button
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || !turnstileToken}
                             style={{
                                 width: '100%',
                                 padding: '1rem 2rem',
-                                background: isSubmitting ? '#64748b' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: isSubmitting || !turnstileToken ? '#64748b' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '12px',
                                 fontSize: '1.1rem',
                                 fontWeight: '600',
-                                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                                cursor: isSubmitting || !turnstileToken ? 'not-allowed' : 'pointer',
                                 transition: 'all 0.3s',
-                                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                                boxShadow: isSubmitting || !turnstileToken ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)'
                             }}
                             onMouseEnter={(e) => {
-                                if (!isSubmitting) {
+                                if (!isSubmitting && turnstileToken) {
                                     e.target.style.transform = 'translateY(-2px)';
                                     e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 e.target.style.transform = 'translateY(0)';
-                                e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                                e.target.style.boxShadow = isSubmitting || !turnstileToken ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)';
                             }}
                         >
                             {isSubmitting ? 'Submitting...' : '📝 Submit Inquiry'}

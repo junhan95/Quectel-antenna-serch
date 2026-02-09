@@ -3,11 +3,13 @@ import SearchApp from './components/SearchApp'
 import AdminDashboard from './components/AdminDashboard'
 import Inquiry from './components/Inquiry'
 import Policy from './components/Policy'
+import ProductDetail from './components/ProductDetail'
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<SearchApp />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/inquiry" element={<Inquiry />} />
             <Route path="/policy" element={<Policy />} />
