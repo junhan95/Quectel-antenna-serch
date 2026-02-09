@@ -25,9 +25,9 @@ function Inquiry() {
     const widgetId = useRef(null);
 
     useEffect(() => {
-        // Function to render the widget
-        const renderTurnstile = () => {
-            if (window.turnstile && turnstileRef.current && !widgetId.current) {
+        // Define global callback
+        window.onloadTurnstileCallback = () => {
+            if (turnstileRef.current && !widgetId.current) {
                 try {
                     widgetId.current = window.turnstile.render(turnstileRef.current, {
                         sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
@@ -50,32 +50,34 @@ function Inquiry() {
             }
         };
 
-        // If script is already loaded
-        if (window.turnstile) {
-            renderTurnstile();
-        } else {
-            // Wait for it to load logic if needed, though script tag is async/defer in index.html, 
-            // usually it loads before this effect if placed in head, or we check interval
-            const checkInterval = setInterval(() => {
-                if (window.turnstile) {
-                    clearInterval(checkInterval);
-                    renderTurnstile();
-                }
-            }, 100);
+        // Check if script is already present
+        const scriptId = 'cf-turnstile-script';
+        let script = document.getElementById(scriptId);
 
-            return () => clearInterval(checkInterval);
+        if (!script) {
+            script = document.createElement('script');
+            script.id = scriptId;
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        } else if (window.turnstile) {
+            // Should already be loaded, try to render immediately
+            window.onloadTurnstileCallback();
         }
 
-        // Cleanup
         return () => {
+            // Cleanup widget
             if (window.turnstile && widgetId.current) {
                 try {
                     window.turnstile.remove(widgetId.current);
                     widgetId.current = null;
                 } catch (e) {
-                    // Ignore remove error
+                    console.warn('Error removing turnstile widget', e);
                 }
             }
+            // Optional: cleanup global callback
+            // window.onloadTurnstileCallback = null; 
         };
     }, []);
 
@@ -317,7 +319,9 @@ function Inquiry() {
                         <div
                             ref={turnstileRef}
                             style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}
-                        ></div>
+                        >
+                            {!turnstileToken && <span style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Loading security check...</span>}
+                        </div>
 
                         <button
                             type="submit"
