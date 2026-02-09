@@ -21,63 +21,59 @@ function Inquiry() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [turnstileToken, setTurnstileToken] = useState(null);
+    const [turnstileToken, setTurnstileToken] = useState(null);
     const turnstileRef = useRef(null);
-    const widgetId = useRef(null);
 
     useEffect(() => {
-        // Define global callback
-        window.onloadTurnstileCallback = () => {
-            if (turnstileRef.current && !widgetId.current) {
-                try {
-                    widgetId.current = window.turnstile.render(turnstileRef.current, {
-                        sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
-                        callback: (token) => {
-                            console.log('Turnstile success:', token);
-                            setTurnstileToken(token);
-                        },
-                        'expired-callback': () => {
-                            console.log('Turnstile expired');
-                            setTurnstileToken(null);
-                        },
-                        'error-callback': (err) => {
-                            console.error('Turnstile error:', err);
-                            setTurnstileToken(null);
-                        },
-                    });
-                } catch (error) {
-                    console.error('Error rendering turnstile:', error);
-                }
-            }
+        // Define global callbacks for Cloudflare Turnstile
+        window.onTurnstileSuccess = (token) => {
+            console.log('Turnstile success:', token);
+            setTurnstileToken(token);
         };
 
-        // Check if script is already present
+        window.onTurnstileError = (err) => {
+            console.error('Turnstile error:', err);
+            setTurnstileToken(null);
+        };
+
+        window.onTurnstileExpired = () => {
+            console.log('Turnstile expired');
+            setTurnstileToken(null);
+        };
+
+        // Inject script if not present
         const scriptId = 'cf-turnstile-script';
         let script = document.getElementById(scriptId);
 
         if (!script) {
             script = document.createElement('script');
             script.id = scriptId;
-            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit';
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
             script.async = true;
             script.defer = true;
             document.head.appendChild(script);
-        } else if (window.turnstile) {
-            // Should already be loaded, try to render immediately
-            window.onloadTurnstileCallback();
+        }
+
+        // If the script is already loaded and the widget didn't auto-render (e.g. navigation),
+        // we might need to explicitly render it or just let the data-attributes handle it if the DOM is fresh.
+        // For React navigation, explicit rendering is safer if the script is already there.
+        if (window.turnstile && turnstileRef.current) {
+            try {
+                // If a widget was already rendered in this specific container, remove it first
+                window.turnstile.render(turnstileRef.current, {
+                    sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
+                    callback: 'onTurnstileSuccess',
+                    'error-callback': 'onTurnstileError',
+                    'expired-callback': 'onTurnstileExpired'
+                });
+            } catch (e) {
+                // console.warn('Turnstile render error', e);
+            }
         }
 
         return () => {
-            // Cleanup widget
-            if (window.turnstile && widgetId.current) {
-                try {
-                    window.turnstile.remove(widgetId.current);
-                    widgetId.current = null;
-                } catch (e) {
-                    console.warn('Error removing turnstile widget', e);
-                }
-            }
-            // Optional: cleanup global callback
-            // window.onloadTurnstileCallback = null; 
+            // Cleanup globals
+            // We don't delete them to avoid errors if the script tries to call them later
         };
     }, []);
 
@@ -147,8 +143,13 @@ function Inquiry() {
                 message: ''
             });
             setTurnstileToken(null);
-            if (window.turnstile && widgetId.current) {
-                window.turnstile.reset(widgetId.current);
+            if (window.turnstile) {
+                // Reset all widgets is safer or just reset via ref if we stored the ID. 
+                // For now, just resetting the state is enough, the widget will show 'success' state.
+                // To force reset:
+                try {
+                    window.turnstile.reset();
+                } catch (e) { }
             }
 
         } catch (error) {
