@@ -317,11 +317,14 @@ function Inquiry() {
                             </div>
                         )}
 
-                        <div
-                            ref={turnstileRef}
-                            style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}
-                        >
-                            {!turnstileToken && <span style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Loading security check...</span>}
+                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}>
+                            <div
+                                className="cf-turnstile"
+                                data-sitekey="0x4AAAAAAACZedU2x9L3MleV-"
+                                data-callback="onTurnstileSuccess"
+                                data-error-callback="onTurnstileError"
+                                data-expired-callback="onTurnstileExpired"
+                            ></div>
                         </div>
 
                         <button
