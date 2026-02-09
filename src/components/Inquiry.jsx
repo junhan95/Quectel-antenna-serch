@@ -313,11 +313,25 @@ function Inquiry() {
                             <div
                                 ref={turnstileRef}
                                 className="cf-turnstile"
-                                data-sitekey="0x4AAAAAAACZedU2x9L3MleV-"
-                                data-callback="onTurnstileSuccess"
-                                data-error-callback="onTurnstileError"
-                                data-expired-callback="onTurnstileExpired"
+                            // data-sitekey="0x4AAAAAAACZedU2x9L3MleV-" // Removing data attrs to rely on manual render in debug mode
                             ></div>
+                        </div>
+
+                        {/* Debug Log Box */}
+                        <div style={{
+                            marginTop: '1rem',
+                            padding: '1rem',
+                            background: '#000',
+                            color: '#0f0',
+                            fontSize: '0.8rem',
+                            fontFamily: 'monospace',
+                            borderRadius: '5px',
+                            maxHeight: '150px',
+                            overflowY: 'auto',
+                            border: '1px solid #333'
+                        }}>
+                            <strong>Debug Log (Take a screenshot if widget is missing):</strong>
+                            {debugLog.map((log, i) => <div key={i}>{log}</div>)}
                         </div>
 
                         <button
