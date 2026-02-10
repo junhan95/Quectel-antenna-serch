@@ -32,6 +32,7 @@ function Inquiry() {
 
     useEffect(() => {
         addLog('Component mounted. Checking for Turnstile...');
+        let currentWidgetId = null;
 
         // Global callback for Cloudflare Turnstile
         window.onTurnstileSuccess = (token) => {
@@ -52,17 +53,19 @@ function Inquiry() {
 
         const renderTurnstile = () => {
             if (window.turnstile && turnstileRef.current) {
+                // If we already have a widget ID for this effect instance, don't render again
+                if (currentWidgetId) return;
+
                 try {
-                    // Check if already rendered to avoid double-render errors if possible, 
-                    // though usually render is safe to call if we manage the ID.
                     addLog('Attempting to render Turnstile...');
-                    const widgetId = window.turnstile.render(turnstileRef.current, {
+                    const id = window.turnstile.render(turnstileRef.current, {
                         sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
                         callback: 'onTurnstileSuccess',
                         'error-callback': 'onTurnstileError',
                         'expired-callback': 'onTurnstileExpired'
                     });
-                    addLog('Turnstile rendered with ID: ' + widgetId);
+                    currentWidgetId = id;
+                    addLog('Turnstile rendered with ID: ' + id);
                 } catch (e) {
                     addLog('Turnstile render error: ' + e.message);
                     console.warn('Turnstile render error', e);
@@ -90,11 +93,27 @@ function Inquiry() {
                 }
             }, 500);
 
-            return () => clearInterval(intervalId);
+            return () => {
+                clearInterval(intervalId);
+                // Clean up widget if it was created in this interval
+                if (currentWidgetId && window.turnstile) {
+                    try {
+                        window.turnstile.remove(currentWidgetId);
+                    } catch (e) { }
+                }
+            };
         }
 
         return () => {
-            // Cleanup
+            // Cleanup widget when component unmounts
+            if (currentWidgetId && window.turnstile) {
+                try {
+                    addLog('Cleaning up Turnstile widget: ' + currentWidgetId);
+                    window.turnstile.remove(currentWidgetId);
+                } catch (e) {
+                    console.warn('Turnstile remove error', e);
+                }
+            }
         };
     }, []);
 
