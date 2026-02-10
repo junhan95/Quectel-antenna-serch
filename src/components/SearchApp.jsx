@@ -211,7 +211,7 @@ function SearchApp() {
 
     return (
         <>
-            {/* <SEO /> */}
+            <SEO />
             <Navbar />
             <div className="container" style={{ paddingTop: '80px' }}>
                 <header className="header">
