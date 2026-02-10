@@ -277,18 +277,18 @@ function Inquiry() {
                             </div>
                         )}
 
-                        <div style={{ marginBottom: '1.5rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontWeight: '500' }}>
+                        <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontWeight: '500', fontSize: '0.9rem' }}>
                                 Verification Logic
                             </label>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem', marginBottom: '0.5rem' }}>
                                 <div style={{
-                                    padding: '0.75rem 1.5rem',
+                                    padding: '0.5rem 1rem',
                                     background: '#334155',
                                     color: '#fff',
-                                    fontSize: '1.5rem',
+                                    fontSize: '1.2rem',
                                     fontWeight: 'bold',
-                                    letterSpacing: '5px',
+                                    letterSpacing: '3px',
                                     borderRadius: '8px',
                                     userSelect: 'none',
                                     fontFamily: 'monospace'
@@ -303,24 +303,27 @@ function Inquiry() {
                                         border: 'none',
                                         color: '#60a5fa',
                                         cursor: 'pointer',
-                                        fontSize: '0.9rem',
+                                        fontSize: '0.8rem',
                                         textDecoration: 'underline'
                                     }}
                                 >
-                                    Refresh Code
+                                    Refresh
                                 </button>
                             </div>
                             <input
                                 type="text"
                                 value={captchaInput}
                                 onChange={(e) => setCaptchaInput(e.target.value)}
-                                placeholder="Enter the 4-character code"
+                                placeholder="ENTER CODE"
                                 className="search-input"
                                 style={{
-                                    marginTop: '0.5rem',
-                                    maxWidth: '200px',
+                                    maxWidth: '150px',
+                                    margin: '0 auto',
+                                    textAlign: 'center',
                                     letterSpacing: '2px',
-                                    textTransform: 'uppercase'
+                                    textTransform: 'uppercase',
+                                    fontSize: '0.9rem',
+                                    padding: '0.6rem'
                                 }}
                                 required
                             />
