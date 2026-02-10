@@ -1,6 +1,7 @@
 {
   "name": "quectel-antenna-search",
   "version": "1.0.0",
+  "homepage": "https://quectel-antenna.com",
   "description": "Search engine for Quectel antennas",
   "main": "index.js",
   "scripts": {
