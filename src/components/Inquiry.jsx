@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// import { Turnstile } from '@marsidev/react-turnstile'; // Removed due to React 19 compatibility issues
+
 import Navbar from './Navbar';
 import Footer from './Footer';
 import antennasData from '../data/antennas.json';
