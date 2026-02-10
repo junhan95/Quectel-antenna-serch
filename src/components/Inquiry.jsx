@@ -21,6 +21,7 @@ function Inquiry() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [turnstileToken, setTurnstileToken] = useState(null);
+    const [debugLog, setDebugLog] = useState([]);
     const turnstileRef = useRef(null);
 
     useEffect(() => {
