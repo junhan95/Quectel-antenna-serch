@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // import { Turnstile } from '@marsidev/react-turnstile'; // Removed due to React 19 compatibility issues
 import Navbar from './Navbar';
@@ -20,101 +20,22 @@ function Inquiry() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
-    const [turnstileToken, setTurnstileToken] = useState(null);
-    const [debugLog, setDebugLog] = useState([]);
-    const turnstileRef = useRef(null);
+    // CAPTCHA State
+    const [captchaCode, setCaptchaCode] = useState('');
+    const [captchaInput, setCaptchaInput] = useState('');
 
-    // Helper to add logs
-    const addLog = (msg) => {
-        const timestamp = new Date().toLocaleTimeString();
-        setDebugLog(prev => [`[${timestamp}] ${msg}`, ...prev]);
+    const generateCaptcha = () => {
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = 0; i < 4; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        setCaptchaCode(result);
+        setCaptchaInput('');
     };
 
     useEffect(() => {
-        addLog('Component mounted. Checking for Turnstile...');
-        let currentWidgetId = null;
-
-        // Global callback for Cloudflare Turnstile
-        window.onTurnstileSuccess = (token) => {
-            addLog('Turnstile success: ' + token.substring(0, 10) + '...');
-            setTurnstileToken(token);
-        };
-
-        window.onTurnstileError = (err) => {
-            addLog('Turnstile error: ' + JSON.stringify(err));
-            console.error('Turnstile error:', err);
-            setTurnstileToken(null);
-        };
-
-        window.onTurnstileExpired = () => {
-            addLog('Turnstile expired');
-            setTurnstileToken(null);
-        };
-
-        const renderTurnstile = () => {
-            if (window.turnstile && turnstileRef.current) {
-                // If we already have a widget ID for this effect instance, don't render again
-                if (currentWidgetId) return;
-
-                try {
-                    addLog('Attempting to render Turnstile...');
-                    const id = window.turnstile.render(turnstileRef.current, {
-                        sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
-                        callback: 'onTurnstileSuccess',
-                        'error-callback': 'onTurnstileError',
-                        'expired-callback': 'onTurnstileExpired'
-                    });
-                    currentWidgetId = id;
-                    addLog('Turnstile rendered with ID: ' + id);
-                } catch (e) {
-                    addLog('Turnstile render error: ' + e.message);
-                    console.warn('Turnstile render error', e);
-                }
-            } else {
-                addLog('window.turnstile not found or ref missing');
-            }
-        };
-
-        // Attempt to render immediately
-        if (window.turnstile) {
-            renderTurnstile();
-        } else {
-            addLog('window.turnstile not ready. Waiting...');
-            // Retry a few times if script is async loading
-            let attempts = 0;
-            const intervalId = setInterval(() => {
-                attempts++;
-                if (window.turnstile) {
-                    clearInterval(intervalId);
-                    renderTurnstile();
-                } else if (attempts > 20) { // Stop after ~10 seconds
-                    clearInterval(intervalId);
-                    addLog('Turnstile script load timeout');
-                }
-            }, 500);
-
-            return () => {
-                clearInterval(intervalId);
-                // Clean up widget if it was created in this interval
-                if (currentWidgetId && window.turnstile) {
-                    try {
-                        window.turnstile.remove(currentWidgetId);
-                    } catch (e) { }
-                }
-            };
-        }
-
-        return () => {
-            // Cleanup widget when component unmounts
-            if (currentWidgetId && window.turnstile) {
-                try {
-                    addLog('Cleaning up Turnstile widget: ' + currentWidgetId);
-                    window.turnstile.remove(currentWidgetId);
-                } catch (e) {
-                    console.warn('Turnstile remove error', e);
-                }
-            }
-        };
+        generateCaptcha();
     }, []);
 
     // Auto-fill form from URL query params
@@ -161,6 +82,12 @@ function Inquiry() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (captchaInput.toUpperCase() !== captchaCode) {
+            alert('Invalid verification code. Please try again.');
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitStatus(null);
 
@@ -182,12 +109,8 @@ function Inquiry() {
                 subject: '',
                 message: ''
             });
-            setTurnstileToken(null);
-            if (window.turnstile) {
-                try {
-                    window.turnstile.reset();
-                } catch (e) { }
-            }
+            // Regenerate CAPTCHA after success
+            generateCaptcha();
 
         } catch (error) {
             console.error('Error submitting inquiry:', error);
@@ -354,56 +277,80 @@ function Inquiry() {
                             </div>
                         )}
 
-                        <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}>
-                            <div
-                                ref={turnstileRef}
-                                style={{ margin: '0 auto' }}
-                            // data-sitekey="0x4AAAAAAACZedU2x9L3MleV-" // Removing data attrs to rely on manual render in debug mode
-                            ></div>
-                        </div>
-
-                        {/* Debug Log Box */}
-                        <div style={{
-                            marginTop: '1rem',
-                            padding: '1rem',
-                            background: '#000',
-                            color: '#0f0',
-                            fontSize: '0.8rem',
-                            fontFamily: 'monospace',
-                            borderRadius: '5px',
-                            maxHeight: '150px',
-                            overflowY: 'auto',
-                            border: '1px solid #333'
-                        }}>
-                            <strong>Debug Log (Take a screenshot if widget is missing):</strong>
-                            {debugLog.map((log, i) => <div key={i}>{log}</div>)}
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontWeight: '500' }}>
+                                Verification Logic
+                            </label>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                <div style={{
+                                    padding: '0.75rem 1.5rem',
+                                    background: '#334155',
+                                    color: '#fff',
+                                    fontSize: '1.5rem',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '5px',
+                                    borderRadius: '8px',
+                                    userSelect: 'none',
+                                    fontFamily: 'monospace'
+                                }}>
+                                    {captchaCode}
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={generateCaptcha}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        color: '#60a5fa',
+                                        cursor: 'pointer',
+                                        fontSize: '0.9rem',
+                                        textDecoration: 'underline'
+                                    }}
+                                >
+                                    Refresh Code
+                                </button>
+                            </div>
+                            <input
+                                type="text"
+                                value={captchaInput}
+                                onChange={(e) => setCaptchaInput(e.target.value)}
+                                placeholder="Enter the 4-character code"
+                                className="search-input"
+                                style={{
+                                    marginTop: '0.5rem',
+                                    maxWidth: '200px',
+                                    letterSpacing: '2px',
+                                    textTransform: 'uppercase'
+                                }}
+                                required
+                            />
                         </div>
 
                         <button
                             type="submit"
-                            disabled={isSubmitting || !turnstileToken}
+                            disabled={isSubmitting}
                             style={{
                                 width: '100%',
                                 padding: '1rem 2rem',
-                                background: isSubmitting || !turnstileToken ? '#64748b' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: isSubmitting ? '#64748b' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '12px',
                                 fontSize: '1.1rem',
                                 fontWeight: '600',
-                                cursor: isSubmitting || !turnstileToken ? 'not-allowed' : 'pointer',
+                                cursor: isSubmitting ? 'not-allowed' : 'pointer',
                                 transition: 'all 0.3s',
-                                boxShadow: isSubmitting || !turnstileToken ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)'
+                                boxShadow: isSubmitting ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)'
                             }}
                             onMouseEnter={(e) => {
-                                if (!isSubmitting && turnstileToken) {
+                                if (!isSubmitting) {
                                     e.target.style.transform = 'translateY(-2px)';
                                     e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 e.target.style.transform = 'translateY(0)';
-                                e.target.style.boxShadow = isSubmitting || !turnstileToken ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)';
+                                e.target.style.boxShadow = isSubmitting ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.4)';
                             }}
                         >
                             {isSubmitting ? 'Submitting...' : '📝 Submit Inquiry'}
