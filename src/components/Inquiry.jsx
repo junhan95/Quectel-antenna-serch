@@ -24,52 +24,77 @@ function Inquiry() {
     const [debugLog, setDebugLog] = useState([]);
     const turnstileRef = useRef(null);
 
+    // Helper to add logs
+    const addLog = (msg) => {
+        const timestamp = new Date().toLocaleTimeString();
+        setDebugLog(prev => [`[${timestamp}] ${msg}`, ...prev]);
+    };
+
     useEffect(() => {
+        addLog('Component mounted. Checking for Turnstile...');
+
         // Global callback for Cloudflare Turnstile
         window.onTurnstileSuccess = (token) => {
-            console.log('Turnstile success:', token);
+            addLog('Turnstile success: ' + token.substring(0, 10) + '...');
             setTurnstileToken(token);
         };
 
         window.onTurnstileError = (err) => {
+            addLog('Turnstile error: ' + JSON.stringify(err));
             console.error('Turnstile error:', err);
             setTurnstileToken(null);
         };
 
         window.onTurnstileExpired = () => {
-            console.log('Turnstile expired');
+            addLog('Turnstile expired');
             setTurnstileToken(null);
         };
 
-        // For React SPA navigation: if the script is already loaded, 
-        // the widget might not auto-render when this component mounts again.
-        // We explicitly render it if window.turnstile exists.
-        if (window.turnstile && turnstileRef.current) {
-            // Clear any existing widget in this container first if needed, 
-            // but usually render overwrites or we can just call it.
-            // We use a small timeout to let the DOM settle.
-            setTimeout(() => {
+        const renderTurnstile = () => {
+            if (window.turnstile && turnstileRef.current) {
                 try {
-                    window.turnstile.render(turnstileRef.current, {
+                    // Check if already rendered to avoid double-render errors if possible, 
+                    // though usually render is safe to call if we manage the ID.
+                    addLog('Attempting to render Turnstile...');
+                    const widgetId = window.turnstile.render(turnstileRef.current, {
                         sitekey: '0x4AAAAAAACZedU2x9L3MleV-',
                         callback: 'onTurnstileSuccess',
                         'error-callback': 'onTurnstileError',
                         'expired-callback': 'onTurnstileExpired'
                     });
+                    addLog('Turnstile rendered with ID: ' + widgetId);
                 } catch (e) {
-                    // console.warn('Turnstile render error', e);
+                    addLog('Turnstile render error: ' + e.message);
+                    console.warn('Turnstile render error', e);
                 }
-            }, 100);
+            } else {
+                addLog('window.turnstile not found or ref missing');
+            }
+        };
+
+        // Attempt to render immediately
+        if (window.turnstile) {
+            renderTurnstile();
+        } else {
+            addLog('window.turnstile not ready. Waiting...');
+            // Retry a few times if script is async loading
+            let attempts = 0;
+            const intervalId = setInterval(() => {
+                attempts++;
+                if (window.turnstile) {
+                    clearInterval(intervalId);
+                    renderTurnstile();
+                } else if (attempts > 20) { // Stop after ~10 seconds
+                    clearInterval(intervalId);
+                    addLog('Turnstile script load timeout');
+                }
+            }, 500);
+
+            return () => clearInterval(intervalId);
         }
 
         return () => {
-            // Cleanup provided by Turnstile usually not strictly necessary for simple cases,
-            // but good practice if we want to be clean.
-            if (window.turnstile) {
-                try {
-                    // window.turnstile.remove(widgetId); // We don't have widgetId stored cleanly here anymore
-                } catch (e) { }
-            }
+            // Cleanup
         };
     }, []);
 
