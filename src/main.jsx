@@ -10,11 +10,9 @@ import ErrorBoundary from './components/ErrorBoundary.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <ErrorBoundary>
-            <HelmetProvider>
-                <HashRouter>
-                    <App />
-                </HashRouter>
-            </HelmetProvider>
+            <HashRouter>
+                <App />
+            </HashRouter>
         </ErrorBoundary>
     </React.StrictMode>,
 )
