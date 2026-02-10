@@ -357,7 +357,7 @@ function Inquiry() {
                         <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center', minHeight: '65px' }}>
                             <div
                                 ref={turnstileRef}
-                                className="cf-turnstile"
+                                style={{ margin: '0 auto' }}
                             // data-sitekey="0x4AAAAAAACZedU2x9L3MleV-" // Removing data attrs to rely on manual render in debug mode
                             ></div>
                         </div>
