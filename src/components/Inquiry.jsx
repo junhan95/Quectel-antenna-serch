@@ -25,11 +25,18 @@ function Inquiry() {
     const [captchaInput, setCaptchaInput] = useState('');
 
     const generateCaptcha = () => {
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const digits = '0123456789';
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const all = digits + letters;
         let result = '';
-        for (let i = 0; i < 4; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        // Guarantee at least one digit and one letter
+        result += digits.charAt(Math.floor(Math.random() * digits.length));
+        result += letters.charAt(Math.floor(Math.random() * letters.length));
+        for (let i = 2; i < 4; i++) {
+            result += all.charAt(Math.floor(Math.random() * all.length));
         }
+        // Shuffle
+        result = result.split('').sort(() => Math.random() - 0.5).join('');
         setCaptchaCode(result);
         setCaptchaInput('');
     };
