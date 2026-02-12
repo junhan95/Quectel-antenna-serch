@@ -35,6 +35,7 @@ function Inquiry() {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         generateCaptcha();
     }, []);
 
