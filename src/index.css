@@ -5,14 +5,14 @@
 }
 
 :root {
-  --bg-color: #f8fafc;
-  --text-color: #1e293b;
+  --bg-color: #0b1120;
+  --text-color: #e2e8f0;
   --primary-color: #0f172a;
   --accent-color: #3b82f6;
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --card-border: rgba(255, 255, 255, 0.5);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --card-bg: rgba(30, 41, 59, 0.85);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -41,19 +41,19 @@ body {
 }
 
 .glass-card {
-  background: rgba(30, 41, 59, 0.7);
-  /* Much more opaque for readability */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  background: rgba(30, 41, 59, 0.95);
+  /* Nearly opaque for maximum readability */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   transition: transform 0.2s, background 0.2s, border-color 0.2s;
 }
 
 .glass-card:hover {
   transform: translateY(-5px);
-  background: rgba(30, 41, 59, 0.85);
+  background: rgba(30, 41, 59, 1);
   border-color: rgba(96, 165, 250, 0.5);
   /* Blue glow on hover */
 }
