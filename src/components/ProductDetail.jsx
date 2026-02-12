@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import SEO from './SEO';
 import antennasData from '../data/antennas.json';
+import datasheetLinks from '../data/datasheetLinks';
 
 function ProductDetail() {
     const { productId } = useParams();
@@ -151,6 +152,29 @@ function ProductDetail() {
                         </p>
 
                         <div className="action-buttons" style={{ display: 'flex', gap: '1rem', marginBottom: '3rem' }}>
+                            {datasheetLinks[productId] && (
+                                <button
+                                    onClick={() => window.open(datasheetLinks[productId], '_blank')}
+                                    style={{
+                                        flex: 1,
+                                        padding: '1rem',
+                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '12px',
+                                        fontSize: '1rem',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '0.5rem'
+                                    }}
+                                >
+                                    <span>📄</span> Datasheet
+                                </button>
+                            )}
                             <button
                                 onClick={() => navigate(`/inquiry?productId=${productId}`)}
                                 style={{
