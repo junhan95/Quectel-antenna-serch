@@ -154,7 +154,7 @@ function ProductDetail() {
                         <div className="action-buttons" style={{ display: 'flex', gap: '1rem', marginBottom: '3rem' }}>
                             {datasheetLinks[productId] && (
                                 <button
-                                    onClick={() => window.open(datasheetLinks[productId], '_blank')}
+                                    onClick={() => window.open(atob(datasheetLinks[productId]), '_blank')}
                                     style={{
                                         flex: 1,
                                         padding: '1rem',
