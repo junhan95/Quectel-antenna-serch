@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: https://quectel-antenna.com/sitemap.xml
+Host: https://quectel-antenna.com
