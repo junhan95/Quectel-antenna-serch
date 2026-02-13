@@ -1,5 +1,6 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import SEO from './SEO';
@@ -41,7 +42,29 @@ function ProductDetail() {
     // Construct SEO data
     const seoTitle = `${name} - Quectel ${subcategory || category} Antenna`;
     const seoDesc = `${description}. ${specs?.['Frequency range'] ? `Frequency: ${specs['Frequency range']}.` : ''} ${specs?.['Mounting type'] ? `Mounting: ${specs['Mounting type']}.` : ''} Get a quote or datasheet.`;
-    const canonicalUrl = `https://quectel-antenna.com/#/product/${productId}`;
+    const canonicalUrl = `https://quectel-antenna.com/product/${productId}`;
+
+    // Product structured data for Google rich results
+    const productJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": name,
+        "description": description,
+        "brand": {
+            "@type": "Brand",
+            "name": "Quectel"
+        },
+        "category": `${category}${subcategory ? ' > ' + subcategory : ''}`,
+        "url": canonicalUrl,
+        ...(imageUrl ? { "image": imageUrl } : {}),
+        ...(specs ? {
+            "additionalProperty": Object.entries(specs).map(([key, value]) => ({
+                "@type": "PropertyValue",
+                "name": key,
+                "value": value
+            }))
+        } : {})
+    };
 
     return (
         <>
@@ -51,6 +74,11 @@ function ProductDetail() {
                 url={canonicalUrl}
                 image={imageUrl}
             />
+            <Helmet>
+                <script type="application/ld+json">
+                    {JSON.stringify(productJsonLd)}
+                </script>
+            </Helmet>
             <Navbar />
             <div className="container" style={{ paddingTop: '100px', minHeight: 'calc(100vh - 200px)' }}>
                 {/* Breadcrumbs */}
@@ -79,7 +107,7 @@ function ProductDetail() {
                         {imageUrl ? (
                             <img
                                 src={imageUrl}
-                                alt={name}
+                                alt={`Quectel ${name} ${subcategory || category} antenna product image`}
                                 style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }}
                             />
                         ) : (

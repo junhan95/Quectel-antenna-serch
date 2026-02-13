@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProductList from './ProductList';
 import ProductEditor from './ProductEditor';
-import Login from './Login';
+import Login, { isSessionValid } from './Login';
 import ChangePassword from './ChangePassword';
 import InquiryList from './InquiryList';
 import { isSupabaseConfigured } from '../lib/supabase';
@@ -98,9 +98,13 @@ function AdminDashboard() {
 
     // Check if user is already authenticated (from sessionStorage)
     useEffect(() => {
-        const auth = sessionStorage.getItem('adminAuth');
-        if (auth === 'true') {
+        if (isSessionValid()) {
             setIsAuthenticated(true);
+        } else {
+            // Clear expired session
+            sessionStorage.removeItem('adminAuth');
+            sessionStorage.removeItem('adminAuthTimestamp');
+            setIsAuthenticated(false);
         }
     }, []);
 
@@ -117,12 +121,14 @@ function AdminDashboard() {
     const handleLogin = () => {
         setIsAuthenticated(true);
         sessionStorage.setItem('adminAuth', 'true');
+        sessionStorage.setItem('adminAuthTimestamp', Date.now().toString());
     };
 
     // Handle logout
     const handleLogout = () => {
         setIsAuthenticated(false);
         sessionStorage.removeItem('adminAuth');
+        sessionStorage.removeItem('adminAuthTimestamp');
     };
 
     // Handle product save
@@ -229,7 +235,7 @@ function AdminDashboard() {
                     <p>Product Management Dashboard</p>
                 </div>
                 <div className="admin-header-actions">
-                    <button onClick={() => window.location.href = window.location.pathname + '#/'} className="btn-secondary">
+                    <button onClick={() => window.location.href = '/'} className="btn-secondary">
                         ← Back to Search
                     </button>
                     <button onClick={() => setShowChangePassword(true)} className="btn-secondary">
@@ -392,11 +398,6 @@ function AdminDashboard() {
             {showChangePassword && (
                 <ChangePassword
                     onClose={() => setShowChangePassword(false)}
-                    onSuccess={() => {
-                        setShowChangePassword(false);
-                        alert('Password changed successfully! Please login again with your new password.');
-                        handleLogout();
-                    }}
                 />
             )}
         </div>

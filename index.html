@@ -1,36 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 
 <head>
-  <script>
-    window.onerror = function (msg, url, lineNo, columnNo, error) {
-      var message = [
-        'Message: ' + msg,
-        'URL: ' + url,
-        'Line: ' + lineNo,
-        'Column: ' + columnNo,
-        'Error object: ' + JSON.stringify(error)
-      ].join(' - ');
-
-      var debugDiv = document.getElementById('debug-log');
-      if (debugDiv) {
-        debugDiv.innerHTML += '<p style="color: red; background: #fff; padding: 5px; border: 1px solid red;">' + message + '</p>';
-        debugDiv.style.display = 'block';
-      }
-      return false;
-    };
-    window.onunhandledrejection = function (event) {
-      var debugDiv = document.getElementById('debug-log');
-      if (debugDiv) {
-        debugDiv.innerHTML += '<p style="color: orange; background: #fff; padding: 5px; border: 1px solid orange;">Unhandled Promise Rejection: ' + event.reason + '</p>';
-        debugDiv.style.display = 'block';
-      }
-    };
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="퀵텔(Quectel) 안테나 검색 엔진 - 5G, LTE, GNSS, WiFi, IoT 안테나를 주파수, 타입별로 검색하세요. Quectel 공식 대리점 운영.">
+  <meta name="keywords"
+    content="Quectel, 퀵텔, 안테나, 5G 안테나, LTE 안테나, GNSS 안테나, IoT, RF, 무선통신, antenna, 임베디드 안테나, 외장 안테나, Quectel antenna">
   <link rel="icon" type="image/jpeg" href="/favicon.jpeg" />
-  <title>Quectel Antenna Search</title>
+  <title>Quectel Antenna Search - 퀵텔 안테나 검색</title>
   <!-- Google Fonts: Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,18 +17,55 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
     rel="stylesheet">
 
+  <!-- GitHub Pages SPA redirect: restore path from query string (paired with 404.html) -->
+  <script>
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&')
+        }).join('?');
+        window.history.replaceState(null, null,
+          l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    }(window.location));
+  </script>
+
+  <!-- Hash URL migration: redirect old /#/... URLs to /... -->
+  <script>
+    (function () {
+      var hash = window.location.hash;
+      if (hash && hash.startsWith('#/')) {
+        var newPath = hash.slice(1); // Remove '#', keep '/'
+        window.history.replaceState(null, null, newPath);
+      }
+    })();
+  </script>
+
 </head>
 
 <body>
-  <div id="debug-log"
-    style="display:none; position:fixed; top:0; left:0; width:100%; z-index:9999; background:rgba(0,0,0,0.8); color:white; padding:20px; font-family:monospace; white-space:pre-wrap;">
-  </div>
   <div id="root">
     <div
       style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0f172a; color:white; font-family:sans-serif;">
       <h1>Loading Application...</h1>
     </div>
   </div>
+  <noscript>
+    <div style="max-width:900px;margin:0 auto;padding:2rem;font-family:sans-serif;color:#333;">
+      <h1>Quectel Antenna Search - 퀵텔 안테나 검색</h1>
+      <p>퀵텔(Quectel) 안테나 검색 엔진 - 5G, LTE, GNSS, WiFi, IoT 안테나를 주파수, 마운팅 타입별로 검색하세요.</p>
+      <h2>Product Categories</h2>
+      <ul>
+        <li><strong>Embedded Antennas</strong> - FPC, Chip, Ceramic embedded antennas</li>
+        <li><strong>External Antennas</strong> - 5G, LTE, GNSS, Combo external antennas</li>
+        <li><strong>Cable</strong> - RF cable assemblies</li>
+      </ul>
+      <p>Quectel is a leading global supplier of IoT modules and antennas for cellular, GNSS, WiFi, and Bluetooth
+        connectivity.</p>
+      <p><a href="/inquiry">Get a Quote / Inquiry</a></p>
+    </div>
+  </noscript>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

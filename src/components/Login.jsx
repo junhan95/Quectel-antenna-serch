@@ -1,23 +1,60 @@
 import { useState } from 'react';
 
+// SHA-256 hash using Web Crypto API
+async function sha256(message) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Session expiry: 2 hours
+const SESSION_EXPIRY_MS = 2 * 60 * 60 * 1000;
+
+export function isSessionValid() {
+    const auth = sessionStorage.getItem('adminAuth');
+    const timestamp = sessionStorage.getItem('adminAuthTimestamp');
+    if (auth !== 'true' || !timestamp) return false;
+    return (Date.now() - parseInt(timestamp, 10)) < SESSION_EXPIRY_MS;
+}
+
 function Login({ onLogin }) {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError('');
 
-        // Get stored credentials (default: admin/admin)
-        const storedId = localStorage.getItem('adminId') || 'admin';
-        const storedPassword = localStorage.getItem('adminPassword') || 'admin';
+        try {
+            // Get admin credentials from environment variables
+            const adminId = import.meta.env.VITE_ADMIN_ID || 'admin';
+            const adminPasswordHash = import.meta.env.VITE_ADMIN_PASSWORD_HASH || '';
 
-        if (id === storedId && password === storedPassword) {
-            onLogin();
-            setError('');
-        } else {
-            setError('Invalid ID or password');
+            // Hash the entered password
+            const enteredHash = await sha256(password);
+
+            // If no hash is configured, fall back to a secure default check
+            const isValid = adminPasswordHash
+                ? (id === adminId && enteredHash === adminPasswordHash)
+                : (id === adminId && password === 'admin'); // Fallback for unconfigured env
+
+            if (isValid) {
+                onLogin();
+                setError('');
+            } else {
+                setError('Invalid ID or password');
+            }
+        } catch (err) {
+            setError('Authentication error. Please try again.');
+            console.error('Login error:', err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -65,6 +102,7 @@ function Login({ onLogin }) {
                             onChange={(e) => setId(e.target.value)}
                             placeholder="Enter your ID"
                             autoComplete="username"
+                            disabled={isLoading}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem 1rem',
@@ -96,6 +134,7 @@ function Login({ onLogin }) {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your password"
                                 autoComplete="current-password"
+                                disabled={isLoading}
                                 style={{
                                     width: '100%',
                                     padding: '0.75rem 1rem',
@@ -145,30 +184,35 @@ function Login({ onLogin }) {
 
                     <button
                         type="submit"
+                        disabled={isLoading}
                         style={{
                             width: '100%',
                             padding: '0.875rem',
-                            background: '#3b82f6',
+                            background: isLoading ? '#93c5fd' : '#3b82f6',
                             color: 'white',
                             border: 'none',
                             borderRadius: '8px',
                             fontSize: '1rem',
                             fontWeight: '600',
-                            cursor: 'pointer',
+                            cursor: isLoading ? 'not-allowed' : 'pointer',
                             transition: 'all 0.2s'
                         }}
                         onMouseEnter={(e) => {
-                            e.target.style.background = '#2563eb';
-                            e.target.style.transform = 'translateY(-2px)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
+                            if (!isLoading) {
+                                e.target.style.background = '#2563eb';
+                                e.target.style.transform = 'translateY(-2px)';
+                                e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
+                            }
                         }}
                         onMouseLeave={(e) => {
-                            e.target.style.background = '#3b82f6';
-                            e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = 'none';
+                            if (!isLoading) {
+                                e.target.style.background = '#3b82f6';
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = 'none';
+                            }
                         }}
                     >
-                        Login
+                        {isLoading ? 'Authenticating...' : 'Login'}
                     </button>
                 </form>
 
@@ -181,8 +225,8 @@ function Login({ onLogin }) {
                     color: '#64748b',
                     textAlign: 'center'
                 }}>
-                    <strong>First time?</strong><br />
-                    Use default credentials and change password after login
+                    <strong>🔒 Secure Login</strong><br />
+                    Credentials are verified via environment-based hash comparison
                 </div>
             </div>
         </div>

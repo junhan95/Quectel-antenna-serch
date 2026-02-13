@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
-        <nav style={{
+        <nav aria-label="Main navigation" style={{
             position: 'fixed',
             top: 0,
             left: 0,

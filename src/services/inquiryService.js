@@ -11,9 +11,11 @@ export const submitInquiry = async (inquiry) => {
     const { data, error } = await supabase
         .from('inquiries')
         .insert({
+            name: inquiry.name || null,
             company: inquiry.company,
             email: inquiry.email,
             phone: inquiry.phone || null,
+            subject: inquiry.subject || null,
             product_id: inquiry.productId || null,
             message: inquiry.message
         })
@@ -118,9 +120,11 @@ export const updateInquiryStatus = async (id, status) => {
 // Transform from database format to app format
 const transformInquiryFromDB = (dbInquiry) => ({
     id: dbInquiry.id,
+    name: dbInquiry.name,
     company: dbInquiry.company,
     email: dbInquiry.email,
     phone: dbInquiry.phone,
+    subject: dbInquiry.subject,
     productId: dbInquiry.product_id,
     productName: dbInquiry.product?.name || null,
     message: dbInquiry.message,

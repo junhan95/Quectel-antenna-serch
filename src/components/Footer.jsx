@@ -1,6 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Footer() {
+    const navigate = useNavigate();
+
+    const handleHomeClick = (e) => {
+        e.preventDefault();
+        navigate('/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     return (
         <footer style={{
             background: 'rgba(15, 23, 42, 0.95)',
@@ -34,7 +41,7 @@ function Footer() {
                         </h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             <li style={{ marginBottom: '0.5rem' }}>
-                                <Link to="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>
+                                <Link to="/" onClick={handleHomeClick} style={{ color: '#94a3b8', textDecoration: 'none' }}>
                                     Home
                                 </Link>
                             </li>

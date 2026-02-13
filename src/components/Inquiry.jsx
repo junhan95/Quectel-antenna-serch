@@ -133,7 +133,7 @@ function Inquiry() {
             <SEO
                 title="Product Inquiry"
                 description="Submit an inquiry for Quectel antennas. Get a quote or technical support."
-                url="https://quectel-antenna.com/#/inquiry"
+                url="https://quectel-antenna.com/inquiry"
             />
             <Navbar />
             <div className="container" style={{ paddingTop: '80px', minHeight: 'calc(100vh - 200px)' }}>

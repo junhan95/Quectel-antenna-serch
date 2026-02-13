@@ -10,8 +10,20 @@ const app = express();
 const PORT = 3001;
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173,https://quectel-antenna.com').split(',').map(s => s.trim());
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like curl, Postman, server-to-server)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+app.use(express.json({ limit: '1mb' }));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Paths
@@ -54,6 +66,24 @@ const upload = multer({
         }
     }
 });
+
+// ── Input Sanitization Helpers ──────────────────────────────────────────
+
+/**
+ * Strip HTML tags and trim whitespace to prevent XSS
+ */
+function sanitize(str, maxLength = 1000) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/<[^>]*>/g, '').trim().slice(0, maxLength);
+}
+
+/**
+ * Validate email format
+ */
+function isValidEmail(email) {
+    if (typeof email !== 'string') return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 // Helper: Read products data
 async function readProducts() {
@@ -138,10 +168,16 @@ app.post('/api/products', async (req, res) => {
         const products = await readProducts();
         const newProduct = req.body;
 
-        // Validate required fields
+        // Validate and sanitize required fields
         if (!newProduct.id || !newProduct.name) {
             return res.status(400).json({ error: 'ID and name are required' });
         }
+
+        newProduct.id = sanitize(newProduct.id, 100);
+        newProduct.name = sanitize(newProduct.name, 200);
+        newProduct.description = sanitize(newProduct.description || '', 2000);
+        newProduct.category = sanitize(newProduct.category || '', 100);
+        newProduct.subcategory = sanitize(newProduct.subcategory || '', 100);
 
         // Check if ID already exists
         if (products.find(p => p.id === newProduct.id)) {
@@ -294,6 +330,23 @@ app.post('/api/inquiry', async (req, res) => {
             return res.status(400).json({ error: 'Name, email, subject, and message are required' });
         }
 
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+
+        // Sanitize all inputs
+        const sanitizedData = {
+            timestamp: new Date().toISOString(),
+            name: sanitize(name, 100),
+            company: sanitize(company || '', 200),
+            email: sanitize(email, 200),
+            phone: sanitize(phone || '', 30),
+            subject: sanitize(subject, 300),
+            message: sanitize(message, 5000),
+            to: sanitize(to || 'admin', 50)
+        };
+
         // Save inquiry to a file for record keeping
         const inquiriesPath = path.join(__dirname, 'inquiries.json');
         let inquiries = [];
@@ -305,16 +358,7 @@ app.post('/api/inquiry', async (req, res) => {
             // File doesn't exist yet, start with empty array
         }
 
-        inquiries.push({
-            timestamp: new Date().toISOString(),
-            name,
-            company,
-            email,
-            phone,
-            subject,
-            message,
-            to: to || 'admin'
-        });
+        inquiries.push(sanitizedData);
 
         await fs.writeFile(inquiriesPath, JSON.stringify(inquiries, null, 2), 'utf8');
 

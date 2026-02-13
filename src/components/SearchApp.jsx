@@ -425,7 +425,7 @@ function SearchApp() {
                                     }}>
                                         <img
                                             src={antenna.imageUrl}
-                                            alt={antenna.name}
+                                            alt={`Quectel ${antenna.name} ${antenna.subcategory || antenna.category} antenna`}
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
                                             }}

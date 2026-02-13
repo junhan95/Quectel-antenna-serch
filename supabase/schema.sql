@@ -20,14 +20,20 @@ CREATE TABLE IF NOT EXISTS products (
 -- Inquiries table
 CREATE TABLE IF NOT EXISTS inquiries (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT,
   company TEXT NOT NULL,
   email TEXT NOT NULL,
   phone TEXT,
+  subject TEXT,
   product_id TEXT REFERENCES products(id) ON DELETE SET NULL,
   message TEXT NOT NULL,
   timestamp TIMESTAMPTZ DEFAULT NOW(),
   status TEXT DEFAULT 'pending'
 );
+
+-- Migration: If table already exists, add missing columns
+-- ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS name TEXT;
+-- ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS subject TEXT;
 
 -- Create index for faster product lookups
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
