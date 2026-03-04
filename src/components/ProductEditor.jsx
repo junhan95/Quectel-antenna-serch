@@ -134,6 +134,13 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
 
     const isNewProduct = !product;
 
+    // Existing categories/subcategories for dropdowns
+    const existingCategories = [...new Set((existingProducts || []).map(p => p.category).filter(Boolean))];
+    const existingSubcategories = [...new Set((existingProducts || [])
+        .filter(p => !formData.category || p.category === formData.category)
+        .map(p => p.subcategory).filter(Boolean)
+    )];
+
     // Common spec fields for quick add
     const commonSpecs = [
         'Frequency range',
@@ -204,28 +211,25 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
 
                         <div className="form-field">
                             <label>Category</label>
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <select
-                                    value={formData.category}
-                                    onChange={(e) => {
-                                        const val = e.target.value;
-                                        if (val === '__NEW__') {
-                                            handleChange('category', '');
-                                            document.getElementById('manual-category-input')?.focus();
-                                        } else {
-                                            handleChange('category', val);
-                                        }
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <option value="">Select Category...</option>
-                                    {[...new Set((existingProducts || []).map(p => p.category).filter(Boolean))].map(cat => (
-                                        <option key={cat} value={cat}>{cat}</option>
-                                    ))}
-                                    <option value="__NEW__">+ Enter manually...</option>
-                                </select>
-                            </div>
-                            {(formData.category === '' || !([...new Set((existingProducts || []).map(p => p.category).filter(Boolean))].includes(formData.category))) && (
+                            <select
+                                value={existingCategories.includes(formData.category) ? formData.category : '__NEW__'}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    if (val === '__NEW__') {
+                                        handleChange('category', '');
+                                        setTimeout(() => document.getElementById('manual-category-input')?.focus(), 0);
+                                    } else {
+                                        handleChange('category', val);
+                                    }
+                                }}
+                            >
+                                <option value="" disabled>Select Category...</option>
+                                {existingCategories.map(cat => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                                <option value="__NEW__">+ Enter manually...</option>
+                            </select>
+                            {!existingCategories.includes(formData.category) && (
                                 <input
                                     id="manual-category-input"
                                     type="text"
@@ -239,43 +243,34 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
 
                         <div className="form-field">
                             <label>Subcategory</label>
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <select
+                            <select
+                                value={existingSubcategories.includes(formData.subcategory) ? formData.subcategory : '__NEW__'}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    if (val === '__NEW__') {
+                                        handleChange('subcategory', '');
+                                        setTimeout(() => document.getElementById('manual-subcategory-input')?.focus(), 0);
+                                    } else {
+                                        handleChange('subcategory', val);
+                                    }
+                                }}
+                            >
+                                <option value="" disabled>Select Subcategory...</option>
+                                {existingSubcategories.map(sub => (
+                                    <option key={sub} value={sub}>{sub}</option>
+                                ))}
+                                <option value="__NEW__">+ Enter manually...</option>
+                            </select>
+                            {!existingSubcategories.includes(formData.subcategory) && (
+                                <input
+                                    id="manual-subcategory-input"
+                                    type="text"
                                     value={formData.subcategory}
-                                    onChange={(e) => {
-                                        const val = e.target.value;
-                                        if (val === '__NEW__') {
-                                            handleChange('subcategory', '');
-                                            document.getElementById('manual-subcategory-input')?.focus();
-                                        } else {
-                                            handleChange('subcategory', val);
-                                        }
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <option value="">Select Subcategory...</option>
-                                    {[...new Set((existingProducts || [])
-                                        .filter(p => !formData.category || p.category === formData.category)
-                                        .map(p => p.subcategory).filter(Boolean)
-                                    )].map(sub => (
-                                        <option key={sub} value={sub}>{sub}</option>
-                                    ))}
-                                    <option value="__NEW__">+ Enter manually...</option>
-                                </select>
-                            </div>
-                            {(formData.subcategory === '' || !([...new Set((existingProducts || [])
-                                .filter(p => !formData.category || p.category === formData.category)
-                                .map(p => p.subcategory).filter(Boolean)
-                            )].includes(formData.subcategory))) && (
-                                    <input
-                                        id="manual-subcategory-input"
-                                        type="text"
-                                        value={formData.subcategory}
-                                        onChange={(e) => handleChange('subcategory', e.target.value)}
-                                        placeholder="Enter subcategory name"
-                                        style={{ marginTop: '0.5rem' }}
-                                    />
-                                )}
+                                    onChange={(e) => handleChange('subcategory', e.target.value)}
+                                    placeholder="Enter subcategory name"
+                                    style={{ marginTop: '0.5rem' }}
+                                />
+                            )}
                         </div>
                     </div>
                 </section>
@@ -355,7 +350,7 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                             placeholder="Specification name"
                             value={newSpecKey}
                             onChange={(e) => setNewSpecKey(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && document.getElementById('newSpecValue')?.focus()}
+                            onKeyDown={(e) => e.key === 'Enter' && document.getElementById('newSpecValue')?.focus()}
                         />
                         <input
                             id="newSpecValue"
@@ -363,7 +358,7 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                             placeholder="Value"
                             value={newSpecValue}
                             onChange={(e) => setNewSpecValue(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddSpec()}
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSpec(); } }}
                         />
                         <button className="btn-primary" onClick={handleAddSpec}>
                             + Add Spec
@@ -388,7 +383,7 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                             placeholder="Add tag"
                             value={newTag}
                             onChange={(e) => setNewTag(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddTag(); } }}
                         />
                         <button className="btn-primary" onClick={handleAddTag}>
                             + Add Tag
@@ -397,29 +392,32 @@ function ProductEditor({ product, onSave, onCancel, apiUrl, existingProducts }) 
                     {/* Available Tags Selection */}
                     <div className="common-specs" style={{ marginTop: '1rem' }}>
                         <label className="stat-label">Select from existing tags:</label>
-                        <div className="spec-buttons">
-                            {[...new Set((existingProducts || [])
-                                .flatMap(p => p.tags)
-                                .filter(Boolean)
-                            )]
-                                .filter(tag => !formData.tags.includes(tag))
-                                .sort()
-                                .map(tag => (
-                                    <button
-                                        key={tag}
-                                        className="btn-spec"
-                                        onClick={() => {
-                                            if (!formData.tags.includes(tag)) {
-                                                setFormData(prev => ({
-                                                    ...prev,
-                                                    tags: [...prev.tags, tag]
-                                                }));
-                                            }
-                                        }}
-                                    >
-                                        + {tag}
-                                    </button>
-                                ))}
+                        <div className="existing-tags-scroll">
+                            <div className="spec-buttons">
+                                {[...new Set((existingProducts || [])
+                                    .flatMap(p => p.tags)
+                                    .filter(Boolean)
+                                )]
+                                    .filter(tag => !formData.tags.includes(tag))
+                                    .sort()
+                                    .map(tag => (
+                                        <button
+                                            key={tag}
+                                            className="btn-spec"
+                                            onClick={() => {
+                                                if (!formData.tags.includes(tag)) {
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        tags: [...prev.tags, tag]
+                                                    }));
+                                                }
+                                            }}
+                                            title={tag}
+                                        >
+                                            + {tag}
+                                        </button>
+                                    ))}
+                            </div>
                         </div>
                     </div>
                 </section>

@@ -444,6 +444,15 @@
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .form-field input.error {
@@ -481,6 +490,10 @@
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.2s;
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .btn-spec:hover {
@@ -491,6 +504,10 @@
 
 .specs-list {
     margin-bottom: 1rem;
+}
+
+.specs-list:empty {
+    display: none;
 }
 
 .spec-item {
@@ -506,6 +523,14 @@
     padding: 0.5rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.spec-key:focus,
+.spec-value:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .add-spec {
@@ -518,6 +543,13 @@
     padding: 0.5rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.add-spec input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 /* Tags */
@@ -559,6 +591,37 @@
     padding: 0.5rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.add-tag input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Existing tags scrollable area */
+.existing-tags-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.existing-tags-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.existing-tags-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.existing-tags-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.existing-tags-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 /* Image Uploader */
@@ -714,6 +777,11 @@
     }
 
     .form-grid-2col {
+        grid-template-columns: 1fr;
+    }
+
+    .spec-item,
+    .add-spec {
         grid-template-columns: 1fr;
     }
 
