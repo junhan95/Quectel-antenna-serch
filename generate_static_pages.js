@@ -95,7 +95,7 @@ function generateProductHtml(product) {
         },
         "category": `${category}${subcategory ? ' > ' + subcategory : ''}`,
         "url": canonicalUrl,
-        ...(imageUrl ? { "image": imageUrl } : {}),
+        ...(imageUrl ? { "image": imageUrl.startsWith('http') ? imageUrl : `https://quectel-antenna.com${imageUrl}` } : {}),
         "offers": {
             "@type": "Offer",
             "url": `https://quectel-antenna.com/inquiry?productId=${encodeURIComponent(id)}`,
@@ -241,5 +241,16 @@ for (const product of antennasData) {
 }
 
 console.log(`  ✅ ${count} SEO-optimized product pages generated`);
+
+// ── Update sitemap.xml lastmod dates ──────────────────────────────
+const today = new Date().toISOString().split('T')[0];
+const sitemapPath = path.join(distDir, 'sitemap.xml');
+if (fs.existsSync(sitemapPath)) {
+    let sitemap = fs.readFileSync(sitemapPath, 'utf-8');
+    sitemap = sitemap.replace(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g, `<lastmod>${today}</lastmod>`);
+    fs.writeFileSync(sitemapPath, sitemap);
+    console.log(`  ✅ sitemap.xml lastmod updated to ${today}`);
+}
+
 console.log(`\n🎉 Total: ${staticRoutes.length + count} static pages created`);
 console.log('   Each product page now has unique <title>, <meta>, JSON-LD, and <noscript> content!');
