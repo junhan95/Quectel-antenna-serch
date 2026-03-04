@@ -79,7 +79,9 @@ function generateProductHtml(product) {
         'antenna', '안테나', 'datasheet', 'specifications'
     ].filter(Boolean).map(escapeHtml).join(', ');
 
-    const ogImage = imageUrl || 'https://quectel-antenna.com/favicon.jpeg';
+    const ogImage = imageUrl
+        ? (imageUrl.startsWith('http') ? imageUrl : `https://quectel-antenna.com${imageUrl}`)
+        : 'https://quectel-antenna.com/favicon.jpeg';
 
     // Product JSON-LD structured data
     const productJsonLd = {
@@ -184,6 +186,15 @@ function generateProductHtml(product) {
 
     // Remove generic <meta name="keywords"> too
     html = html.replace(/<meta\s+name="keywords"[\s\S]*?>/i, '');
+
+    // Remove generic canonical URL (홈페이지 canonical 제거)
+    html = html.replace(/<link\s+rel="canonical"[^>]*>/i, '');
+
+    // Remove generic OG meta tags (홈페이지 OG 태그 제거)
+    html = html.replace(/<meta\s+property="og:[^"]*"[^>]*>/gi, '');
+
+    // Remove generic <meta property="og:locale"> too
+    html = html.replace(/<meta\s+property="og:locale"[^>]*>/gi, '');
 
     // Insert product-specific SEO tags right before </head>
     html = html.replace('</head>', `${seoMetaTags}\n</head>`);
