@@ -16,6 +16,7 @@ function SearchApp() {
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [selectedSubcategories, setSelectedSubcategories] = useState([])
+    const [selectedMountingType, setSelectedMountingType] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
     const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -57,6 +58,18 @@ function SearchApp() {
 
         return ['All', ...sortedCats]
     }, [])
+
+    // Mounting type options based on selected Category
+    const mountingTypeOptions = useMemo(() => {
+        if (selectedCategory === 'All') return []
+        const types = new Set(
+            antennasData
+                .filter(a => a.category === selectedCategory)
+                .map(a => a.specs?.['Mounting type'])
+                .filter(Boolean)
+        )
+        return [...types].sort()
+    }, [selectedCategory])
 
     // Extract unique subcategories for filters (excluding 'All')
     const subcategories = useMemo(() => {
@@ -112,6 +125,7 @@ function SearchApp() {
     const filteredAntennas = useMemo(() => {
         return antennasData.filter(antenna => {
             const matchesCategory = selectedCategory === 'All' || antenna.category === selectedCategory;
+            const matchesMountingType = !selectedMountingType || antenna.specs?.['Mounting type'] === selectedMountingType;
 
             if (activeTab === 'simple') {
                 const matchesSearch =
@@ -123,11 +137,11 @@ function SearchApp() {
 
                 const matchesSubcategory = selectedSubcategories.length === 0 ||
                     selectedSubcategories.includes(antenna.subcategory);
-                return matchesSearch && matchesSubcategory && matchesCategory;
+                return matchesSearch && matchesSubcategory && matchesCategory && matchesMountingType;
             } else {
                 // Detailed Search: Check if antenna supports all selected bands
                 if (!hasSelectedBands) {
-                    return matchesCategory; // No bands selected, show all
+                    return matchesCategory && matchesMountingType;
                 }
 
                 const antennaFreqStr = antenna.specs?.['Frequency range'] || ''
@@ -152,10 +166,10 @@ function SearchApp() {
                     }
                 }
 
-                return matchesCategory
+                return matchesCategory && matchesMountingType
             }
         })
-    }, [activeTab, searchTerm, selectedSubcategories, selectedCategory, selectedBands, hasSelectedBands])
+    }, [activeTab, searchTerm, selectedSubcategories, selectedCategory, selectedBands, hasSelectedBands, selectedMountingType])
 
     // Pagination
     const totalPages = Math.ceil(filteredAntennas.length / itemsPerPage);
@@ -195,6 +209,7 @@ function SearchApp() {
     // Reset to page 1 when filters change
     const handleCategoryChange = (cat) => {
         setSelectedCategory(cat);
+        setSelectedMountingType('');
         setCurrentPage(1);
     };
 
@@ -247,6 +262,55 @@ function SearchApp() {
                             </button>
                         ))}
                     </div>
+
+                    {/* Mounting Type sub-filter (shown when a specific category is selected) */}
+                    {mountingTypeOptions.length > 0 && (
+                        <div style={{ marginTop: '0.75rem', paddingLeft: '1rem', borderLeft: '2px solid rgba(59, 130, 246, 0.3)' }}>
+                            <div style={{
+                                color: '#94a3b8',
+                                fontSize: '0.8rem',
+                                marginBottom: '0.5rem',
+                                fontWeight: '500',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <span>Mounting Type</span>
+                                {selectedMountingType && (
+                                    <button
+                                        onClick={() => {
+                                            setSelectedMountingType('');
+                                            setCurrentPage(1);
+                                        }}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: '#60a5fa',
+                                            fontSize: '0.75rem',
+                                            cursor: 'pointer',
+                                            textDecoration: 'underline'
+                                        }}
+                                    >
+                                        Clear
+                                    </button>
+                                )}
+                            </div>
+                            <div className="filters">
+                                {mountingTypeOptions.map(mt => (
+                                    <button
+                                        key={mt}
+                                        className={`filter-badge ${selectedMountingType === mt ? 'active' : ''}`}
+                                        onClick={() => {
+                                            setSelectedMountingType(selectedMountingType === mt ? '' : mt);
+                                            setCurrentPage(1);
+                                        }}
+                                    >
+                                        {mt}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* 3. Subcategory (Simple Mode) */}
@@ -294,6 +358,7 @@ function SearchApp() {
                         </div>
                     </div>
                 )}
+
 
                 {/* 4. Tabs */}
                 <div className="tabs">
