@@ -1,9 +1,7 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import SEO from './SEO';
 import antennasData from '../data/antennas.json';
 import datasheetLinks from '../data/datasheetLinks';
 
@@ -39,46 +37,11 @@ function ProductDetail() {
         subcategory
     } = product;
 
-    // Construct SEO data
-    const seoTitle = `${name} - Quectel ${subcategory || category} Antenna`;
-    const seoDesc = `${description}. ${specs?.['Frequency range'] ? `Frequency: ${specs['Frequency range']}.` : ''} ${specs?.['Mounting type'] ? `Mounting: ${specs['Mounting type']}.` : ''} Get a quote or datasheet.`;
-    const canonicalUrl = `https://quectel-antenna.com/product/${productId}`;
 
-    // Product structured data for Google rich results
-    const productJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": name,
-        "description": description,
-        "brand": {
-            "@type": "Brand",
-            "name": "Quectel"
-        },
-        "category": `${category}${subcategory ? ' > ' + subcategory : ''}`,
-        "url": canonicalUrl,
-        ...(imageUrl ? { "image": imageUrl } : {}),
-        ...(specs ? {
-            "additionalProperty": Object.entries(specs).map(([key, value]) => ({
-                "@type": "PropertyValue",
-                "name": key,
-                "value": value
-            }))
-        } : {})
-    };
 
     return (
         <>
-            <SEO
-                title={seoTitle}
-                description={seoDesc}
-                url={canonicalUrl}
-                image={imageUrl}
-            />
-            <Helmet>
-                <script type="application/ld+json">
-                    {JSON.stringify(productJsonLd)}
-                </script>
-            </Helmet>
+            {/* SEO tags are provided by generate_static_pages.js in static HTML */}
             <Navbar />
             <div className="container" style={{ paddingTop: '100px', minHeight: 'calc(100vh - 200px)' }}>
                 {/* Breadcrumbs */}
