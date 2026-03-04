@@ -96,6 +96,16 @@ function generateProductHtml(product) {
         "category": `${category}${subcategory ? ' > ' + subcategory : ''}`,
         "url": canonicalUrl,
         ...(imageUrl ? { "image": imageUrl } : {}),
+        "offers": {
+            "@type": "Offer",
+            "url": `https://quectel-antenna.com/inquiry?productId=${encodeURIComponent(id)}`,
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+                "@type": "Organization",
+                "name": "Quectel"
+            }
+        },
         ...(specs ? {
             "additionalProperty": Object.entries(specs).map(([key, value]) => ({
                 "@type": "PropertyValue",
