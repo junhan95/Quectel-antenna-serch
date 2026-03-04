@@ -88,6 +88,24 @@ function FrequencyDropdown({ category, bands, selectedBands, onSelectionChange }
                         )}
                     </div>
                     <div className="dropdown-items">
+                        {!searchTerm && (
+                            <label className="dropdown-item all-item">
+                                <input
+                                    type="checkbox"
+                                    checked={bands.length > 0 && selectedBands.length === bands.length}
+                                    ref={el => { if (el) el.indeterminate = selectedBands.length > 0 && selectedBands.length < bands.length }}
+                                    onChange={() => {
+                                        if (selectedBands.length === bands.length) {
+                                            onSelectionChange([])
+                                        } else {
+                                            onSelectionChange(bands.map(b => b.band))
+                                        }
+                                    }}
+                                />
+                                <span className="band-name" style={{ fontWeight: 600 }}>All</span>
+                                <span className="band-info">{bands.length} bands</span>
+                            </label>
+                        )}
                         {filteredBands.map((bandData) => (
                             <label key={bandData.band} className="dropdown-item">
                                 <input
