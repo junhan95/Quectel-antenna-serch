@@ -108,6 +108,7 @@ function ProductDetail() {
                             <img
                                 src={imageUrl}
                                 alt={`Quectel ${name} ${subcategory || category} antenna product image`}
+                                loading="lazy"
                                 style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }}
                             />
                         ) : (

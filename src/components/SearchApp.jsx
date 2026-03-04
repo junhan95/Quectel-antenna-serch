@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import antennasData from '../data/antennas.json'
 
@@ -14,6 +14,8 @@ function SearchApp() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('simple');
     const [searchTerm, setSearchTerm] = useState('')
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+    const debounceTimerRef = useRef(null)
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [selectedSubcategories, setSelectedSubcategories] = useState([])
     const [selectedMountingType, setSelectedMountingType] = useState('')
@@ -123,17 +125,18 @@ function SearchApp() {
     const hasSelectedBands = Object.values(selectedBands).some(bands => bands.length > 0)
 
     const filteredAntennas = useMemo(() => {
+        const searchLower = debouncedSearchTerm.toLowerCase()
         return antennasData.filter(antenna => {
             const matchesCategory = selectedCategory === 'All' || antenna.category === selectedCategory;
             const matchesMountingType = !selectedMountingType || antenna.specs?.['Mounting type'] === selectedMountingType;
 
             if (activeTab === 'simple') {
-                const matchesSearch =
-                    antenna.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    antenna.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    antenna.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    (antenna.specs?.['Frequency range'] || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    (antenna.tags || []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+                const matchesSearch = !searchLower ||
+                    antenna.name.toLowerCase().includes(searchLower) ||
+                    antenna.id.toLowerCase().includes(searchLower) ||
+                    antenna.description.toLowerCase().includes(searchLower) ||
+                    (antenna.specs?.['Frequency range'] || '').toLowerCase().includes(searchLower) ||
+                    (antenna.tags || []).some(tag => tag.toLowerCase().includes(searchLower));
 
                 const matchesSubcategory = selectedSubcategories.length === 0 ||
                     selectedSubcategories.includes(antenna.subcategory);
@@ -169,7 +172,7 @@ function SearchApp() {
                 return matchesCategory && matchesMountingType
             }
         })
-    }, [activeTab, searchTerm, selectedSubcategories, selectedCategory, selectedBands, hasSelectedBands, selectedMountingType])
+    }, [activeTab, debouncedSearchTerm, selectedSubcategories, selectedCategory, selectedBands, hasSelectedBands, selectedMountingType])
 
     // Pagination
     const totalPages = Math.ceil(filteredAntennas.length / itemsPerPage);
@@ -213,10 +216,21 @@ function SearchApp() {
         setCurrentPage(1);
     };
 
-    const handleSearchChange = (value) => {
+    const handleSearchChange = useCallback((value) => {
         setSearchTerm(value);
-        setCurrentPage(1);
-    };
+        if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = setTimeout(() => {
+            setDebouncedSearchTerm(value);
+            setCurrentPage(1);
+        }, 300);
+    }, []);
+
+    // Cleanup debounce timer on unmount
+    useEffect(() => {
+        return () => {
+            if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+        };
+    }, []);
 
     // Handle page change with scroll to top
     const handlePageChange = (page) => {
@@ -474,7 +488,7 @@ function SearchApp() {
 
                 <div className={viewMode === 'grid' ? 'grid' : 'list-view'}>
                     {currentAntennas.map(antenna => (
-                        <div key={antenna.id} className="glass-card">
+                        <article key={antenna.id} className="glass-card">
                             {antenna.imageUrl && (
                                 <Link to={`/product/${antenna.id}`} style={{ display: 'block', textDecoration: 'none' }}>
                                     <div style={{
@@ -491,6 +505,7 @@ function SearchApp() {
                                         <img
                                             src={antenna.imageUrl}
                                             alt={`Quectel ${antenna.name} ${antenna.subcategory || antenna.category} antenna`}
+                                            loading="lazy"
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
                                             }}
@@ -521,7 +536,7 @@ function SearchApp() {
                             )}
                             <div className="card-content">
                                 <Link to={`/product/${antenna.id}`} style={{ textDecoration: 'none' }}>
-                                    <h3 className="card-title" style={{ cursor: 'pointer', display: 'inline-block' }}>{antenna.name}</h3>
+                                    <h2 className="card-title" style={{ cursor: 'pointer', display: 'inline-block' }}>{antenna.name}</h2>
                                 </Link>
                                 <p className="card-desc">{antenna.description}</p>
                                 <div className="specs-list" style={{ background: 'transparent', padding: 0 }}>
@@ -629,7 +644,7 @@ function SearchApp() {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </article>
                     ))}
                 </div>
 
