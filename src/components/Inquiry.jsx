@@ -25,8 +25,8 @@ function Inquiry() {
     const [captchaInput, setCaptchaInput] = useState('');
 
     const generateCaptcha = () => {
-        const digits = '0123456789';
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const digits = '23456789';
+        const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
         const all = digits + letters;
         let result = '';
         // Guarantee at least one digit and one letter
