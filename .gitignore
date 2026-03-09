@@ -56,3 +56,10 @@ Thumbs.db
 raw_text.txt
 image_mapping.json
 fixable_images.json
+
+# Data files (Excel, CSV)
+*.xlsx
+*.csv
+
+# Debug artifacts
+debug_*.png
