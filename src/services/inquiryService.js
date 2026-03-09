@@ -8,17 +8,23 @@ export const submitInquiry = async (inquiry) => {
         throw new Error('Supabase not configured')
     }
 
+    const insertData = {
+        name: inquiry.name || null,
+        company: inquiry.company || '',
+        email: inquiry.email,
+        phone: inquiry.phone || null,
+        subject: inquiry.subject || null,
+        message: inquiry.message
+    }
+
+    // product_id는 FK 제약이 있으므로 값이 있을 때만 포함
+    if (inquiry.productId) {
+        insertData.product_id = inquiry.productId
+    }
+
     const { data, error } = await supabase
         .from('inquiries')
-        .insert({
-            name: inquiry.name || null,
-            company: inquiry.company,
-            email: inquiry.email,
-            phone: inquiry.phone || null,
-            subject: inquiry.subject || null,
-            product_id: inquiry.productId || null,
-            message: inquiry.message
-        })
+        .insert(insertData)
 
     if (error) {
         console.error('Error submitting inquiry:', error)
