@@ -9,7 +9,7 @@ import * as productService from '../services/productService';
 import * as inquiryService from '../services/inquiryService';
 import '../admin.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 
 function AdminDashboard() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -196,16 +196,7 @@ function AdminDashboard() {
         }
     };
 
-    // Handle backup
-    const handleBackup = async () => {
-        try {
-            const response = await fetch(`${API_URL}/backup`, { method: 'POST' });
-            const data = await response.json();
-            alert('Backup created successfully!');
-        } catch (err) {
-            setError('Failed to create backup');
-        }
-    };
+
 
     // Filter products
     const filteredProducts = products.filter(product => {
@@ -335,9 +326,6 @@ function AdminDashboard() {
                                 <button className="btn-secondary" onClick={handleExport}>
                                     📥 Export Data
                                 </button>
-                                <button className="btn-secondary" onClick={handleBackup}>
-                                    💾 Create Backup
-                                </button>
                                 <button
                                     className="btn-secondary"
                                     onClick={() => setView('products')}
@@ -381,7 +369,7 @@ function AdminDashboard() {
                             setSelectedProduct(null);
                             setView('products');
                         }}
-                        apiUrl={API_URL}
+
                     />
                 )}
 
