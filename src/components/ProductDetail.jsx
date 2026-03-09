@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import SEO from './SEO';
 import antennasData from '../data/antennas.json';
 import datasheetLinks from '../data/datasheetLinks';
 
@@ -41,6 +42,13 @@ function ProductDetail() {
 
     return (
         <>
+            <SEO
+                title={`${name} - ${subcategory || category} Antenna`}
+                description={`${name}: ${description || `Quectel ${subcategory || category} antenna`}. ${specs?.['Frequency range'] ? `Frequency: ${specs['Frequency range']}` : ''}`}
+                url={`https://quectel-antenna.com/product/${productId}`}
+                image={imageUrl ? `https://quectel-antenna.com${imageUrl}` : undefined}
+                keywords={`${name}, ${category}, ${subcategory || ''}, Quectel antenna, ${specs?.['Frequency range'] || ''}`}
+            />
             {/* SEO tags are provided by generate_static_pages.js in static HTML */}
             <Navbar />
             <div className="container" style={{ paddingTop: '100px', minHeight: 'calc(100vh - 200px)' }}>
